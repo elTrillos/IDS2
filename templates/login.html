@@ -1,33 +1,44 @@
-﻿<!DOCTYPE html>
-<html >
+﻿{% extends 'base.html' %}
+
   <head>
     <meta charset="utf-8">
     <title>Formulario Login</title>
   </head>
+
+  {% block content %}
   <body>
-    <section class="form-login">
-    <div class="container">
-      <div class="row" style="margin-top: 40px">
-          <div class="col-sm-6">
-              <form method="POST">
-                  <div class="form-group">
-                    <label for="email">Username : </label>
-                    <input type="text" name="mail" class="form-control" id="uname">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Password : </label>
-                    <input type="password" name="passw" class="form-control" id="passw">
-                  </div>
-                  <button type="submit" class="btn form-control btn-default">Login</button>
-              </form>
-          </div>
-      </div>
+    <div style="float: left; width: 50%">
+      <img src="static/images/logo-transparent.png" alt="Logo Uandes Market">
+    
     </div>
-  </selection>
-      <p>| Crear usuario |</p>
-      <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
-  </body>
-</html>
+
+    <div style="float: right; width: 50%">
+      <section class="form-login">
+      <div class="container">
+        <div class="row" style="margin-top: 40px">
+            <div class="col-sm-6">
+                <form method="POST">
+                    <div class="form-group">
+                      <label for="email">Username : </label>
+                      <input type="text" name="mail" class="form-control" id="uname">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Password : </label>
+                      <input type="password" name="passw" class="form-control" id="passw">
+                    </div>
+                    <button type="submit" class="btn form-control btn-default">Login</button>
+                </form>
+            </div>
+        </div>
+      </div>
+    </selection>
+    <p>| Crear usuario |</p>
+    <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
+
+    </div>
+    </body>
+    {% endblock %}
+
 <style>
     * {
         margin: 0;
