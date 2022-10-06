@@ -1,0 +1,125 @@
+.header {
+    padding: 10px 16px;
+      background: #37424a ;
+      color:  #ffffff;
+      font-size: 40px;
+    }
+  
+  .header-img {
+      margin-right: auto;
+      width: 100%;
+      height: 110px;
+      width: 100px;
+      background: url('https://cdn.discordapp.com/attachments/745739727700754434/1014733699876655175/unknown.png');
+      background-size: cover;
+    }
+    
+  .grid{
+      margin-left : 160px;
+  }
+  
+  body{
+      margin: 0;
+      font-family: sans-serif;
+  }
+  
+  /* The sidebar menu */
+  .sidenav {
+    width: 160px; /* Set the width of the sidebar */
+    left: 0;
+    background-color: #e00009 ; /* Black */
+    overflow-x: auto; /* Disable horizontal scroll */
+    padding-top: 20px;
+    position: absolute;
+    height: 150%;
+  }
+  
+  .content { 
+    margin-left : 160px;
+    margin-right: 5% ; 
+  }
+  /* The navigation menu links */
+  .sidenav a {
+    position: -webkit-sticky;
+    position: sticky;
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #696969 ;
+    display: block;
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+  
+  /* Style page content */
+  .main {
+    margin-left: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+  
+  /* The sticky class is added to the header with JS when it reaches its scroll position */
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%
+  }
+  
+  /* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+  .sticky + .content {
+    padding-top: 102px;
+  }
+  
+  a:link {
+    color: white  ;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  a:visited {
+    color: white ;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .fa-address-card {
+    color: white;
+  }
+  
+  input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }
+  
+  .sidenav_right{
+    width: 500px; /* Set the width of the sidebar */
+    right: 0;
+    background-color: #e00009 ; /* Black */
+    color: white ;
+    overflow-x: auto; /* Disable horizontal scroll */
+    padding-top: 20px;
+    position: absolute;
+    height: 150%;
+  }
+  
+  table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+  }
+  a:hover, a:active {
+    background-color: red;
+  }
