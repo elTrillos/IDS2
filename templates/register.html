@@ -19,31 +19,34 @@
               <form method="POST">
                   <div class="form-group">
                     <label for="email">Username : </label>
-                    <input type="text" name="mail" class="form-control" id="uname">
+                    <input type="text" placeholder="Enter useername" name="username" class="form-control" id="uname">
                   </div>
                   <div class="form-group mb-2">
-                    <label for="email">Password : </label>
-                    <input type="password" name="passw" class="form-control" id="passw">
+                    <label for="passw">Password : </label>
+                    <input type="password" placeholder="Enter Password" name="passw" class="form-control" id="passw">
                   </div>
                   <div class="form-group mb-3">
-                    <label for="email">categoria : </label>
-                    <!--deberia ser un value-->
-                    <input type="password" name="passw" class="form-control" id="passw">
+                    <label for="category">categoria:</label>
+                    <select name="category" id="category">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="B">C</option>
+                    </select>
                   </div>
                   <div class="form-group mb-4">
-                    <label for="email">numero telefono : </label>
-                    <input type="password" name="passw" class="form-control" id="passw">
+                    <label for="phone">numero telefono : </label>
+                    <input type="number" placeholder="example: +569 123456789"name="telefone" class="form-control" id="phone">
                   </div>
                   <div class="form-group mb-5">
-                    <label for="email">nombre: </label>
-                    <input type="password" name="passw" class="form-control" id="passw">
+                    <label for="name">nombre: </label>
+                    <input type="text" placeholder="Ingrese Nombre" name="nombre" class="form-control" id="name">
                   </div>
                   <div class="form-group mb-6">
-                    <label for="email">mail: </label>
-                    <input type="password" name="passw" class="form-control" id="passw">
+                    <label for="mail">mail: </label>
+                    <input type="text"  placeholder="Enter mail" name="mail" class="form-control" id="mail">
                   </div>
               </form>
-              <button>Crear</button>
+              <button class="btn form-control btn-default" id="saveData" type="button" value="Guardar usuario" onclick="saveData();"><a href='/'>Registrarse</a></button>
               <button onclick="history.back()">volver</button>
             </div>
         </div>
@@ -54,4 +57,37 @@
 
   </div>
 </body>
+<script>
+    function saveData(){
+        var formData = new FormData();
+        formData.append("content", "Usuario")
+        var username = document.getElementById("uname").value
+        formData.append("username",username)
+        console.log(username)
+
+        var mail = document.getElementById("mail").value
+        formData.append('email',mail)
+        
+        var password = document.getElementById("passw").value
+        formData.append("password",password)
+
+        var category = document.getElementById("category").value
+        console.log(category)
+        formData.append("category",category)
+
+        var phone = document.getElementById("phone").value
+        console.log(phone)
+        formData.append("phone",phone)
+        
+        var name = document.getElementById("name").value
+        console.log(name)
+        formData.append("name",name)
+
+        const request = new XMLHttpRequest()
+        request.open("POST", '/register')
+        request.send(formData)
+        console.log(request)
+      }
+    document.getElementById("saveData").onclick = function () {  saveData();};
+</script>
 {% endblock %}
