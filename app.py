@@ -1,16 +1,20 @@
+from datetime import datetime
 from unicodedata import category
+from xmlrpc.client import DateTime
+
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+
 import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.secret_key = 'super secret key'
 db = SQLAlchemy(app)
+app.app_context().push()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -22,6 +26,46 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     def __repr__(self):
         return '<User %r>' % self.username
+
+class Emprendimiento(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, nullable=False)
+    nombre = db.Column(db.String(80))
+    descripcion = db.Column(db.String(80), nullable=False)
+
+    def __repr__(self):
+        return '<Emprendimiento %r>' % self.name
+
+class Puntuacion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    id_usuario = db.Column(db.Integer, nullable=False)
+    id_emprendimiento = db.Column(db.Integer, nullable=False)
+    puntos = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+    def __repr__(self):
+        return '<Puntuacion %r>' % self.name
+
+class Producto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(80))
+    disponibilidad = db.Column(db.Integer)
+    precio = db.Column(db.String(80))
+    id_emprendimiento = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+    def __repr__(self):
+        return '<Producto %r>' % self.name
+
+class Opinion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    descripcion = db.Column(db.String(80))
+    id_producto = db.Column(db.Integer, nullable=False)
+    id_user = db.Column(db.Integer, nullable=False)
+    fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+    def __repr__(self):
+        return '<Producto %r>' % self.name
 
 @app.route('/', methods=['POST','GET'])
 def index():
@@ -67,4 +111,5 @@ def register():
 
 if __name__ =="__main__":
     app.config['SESSION_TYPE'] = 'filesystem'
+
     app.run()
