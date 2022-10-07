@@ -7,32 +7,35 @@
 
   {% block content %}
   <body>
-    <div style="float: left; width: 50%">
+    <div style="float: left; width: 60%; padding-right: 50px">
       <img src="static/images/logo-transparent.png" alt="Logo Uandes Market">
     
     </div>
 
-    <div style="float: right; width: 50%">
+    <div style="float: right; width: 40%">
       <section class="form-login">
       <div class="container">
-        <div class="row" style="margin-top: 40px">
-            <div class="col-sm-6">
+        <div class="row justify-content-center" style="margin-top: 100px">
+            <div class="col-sm">
                 <form method="POST">
                     <div class="form-group">
                       <label for="email">Username : </label>
                       <input type="text" name="mail" class="form-control" id="uname">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                       <label for="email">Password : </label>
                       <input type="password" name="passw" class="form-control" id="passw">
                     </div>
-                    <button type="submit" class="btn form-control btn-default">Login</button>
+                    <button type="button" class="btn form-control btn-primary">Login</button>
                 </form>
-            </div>
+                <div class="col justify-content-center" style="margin-top: 20px">
+                  <p class="mb-0">No tienes cuenta?</p>
+                  <a href="register.html">Registrarse</a>
+                  </div>
+              </div>
         </div>
       </div>
     </selection>
-    <p>| Crear usuario |</p>
     <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
 
     </div>
