@@ -67,9 +67,24 @@ class Opinion(db.Model):
     def __repr__(self):
         return '<Producto %r>' % self.name
 
-@app.route('/', methods=['POST','GET'])
+@app.route('/', methods=['GET','POST']) # login
 def index():
-        return render_template('login.html')
+    if request.method == "POST":
+        uname = request.form["username"]
+        passw = request.form["password"]
+        login = User.query.filter_by(username=uname, password=passw).first()
+        #session['username'] = uname
+        #session['taskTodo'] = login.current_todo
+        #session['taskStep'] = login.current_step
+        #session['user_id'] = login.id
+        print(login)
+        if login is not None:
+            #if login.category=='teacher':
+            #    return redirect(url_for("index"))
+            #else:
+            print("llendo al index")
+            return redirect('/index')
+    return render_template('login.html')
 
 @app.route('/emprendimientos' , methods=['POST','GET'])
 def emprendimientos():
@@ -101,6 +116,7 @@ def login():
         session['taskTodo'] = login.current_todo
         session['taskStep'] = login.current_step
         session['user_id'] = login.id
+        print(login)
         if login is not None:
             if login.category=='teacher':
                 return redirect(url_for("index"))
@@ -132,6 +148,9 @@ def register():
         return redirect(url_for("login"))    
     return render_template("register.html")
 
+@app.route("/index", methods=["GET", "POST"])
+def indexIn():
+    return render_template("index.html")
 if __name__ =="__main__":
     app.config['SESSION_TYPE'] = 'filesystem'
 
