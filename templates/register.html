@@ -1,1 +1,57 @@
-dsffds
+{% extends 'base.html' %}
+<head>
+    <meta charset="utf-8">
+    <title>Formulario register</title>
+</head>
+
+{% block content %}
+<body>
+  <div style="float: left; width: 60%; padding-right: 50px">
+    <img src="static/images/logo-transparent.png" alt="Logo Uandes Market" width="90%" height="auto">
+  
+  </div>
+
+  <div style="float: right; width: 40%">
+    <section class="form-register">
+    <div class="container">
+      <div class="row justify-content-center" style="margin-top: 50%">
+          <div class="col-sm">
+              <form method="POST">
+                  <div class="form-group">
+                    <label for="email">Username : </label>
+                    <input type="text" name="mail" class="form-control" id="uname">
+                  </div>
+                  <div class="form-group mb-2">
+                    <label for="email">Password : </label>
+                    <input type="password" name="passw" class="form-control" id="passw">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="email">categoria : </label>
+                    <!--deberia ser un value-->
+                    <input type="password" name="passw" class="form-control" id="passw">
+                  </div>
+                  <div class="form-group mb-4">
+                    <label for="email">numero telefono : </label>
+                    <input type="password" name="passw" class="form-control" id="passw">
+                  </div>
+                  <div class="form-group mb-5">
+                    <label for="email">nombre: </label>
+                    <input type="password" name="passw" class="form-control" id="passw">
+                  </div>
+                  <div class="form-group mb-6">
+                    <label for="email">mail: </label>
+                    <input type="password" name="passw" class="form-control" id="passw">
+                  </div>
+              </form>
+              <button>Crear</button>
+              <button onclick="history.back()">volver</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </selection>
+  <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
+
+  </div>
+</body>
+{% endblock %}
