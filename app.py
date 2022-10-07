@@ -74,12 +74,18 @@ def index():
 @app.route('/emprendimientos' , methods=['POST','GET'])
 def emprendimientos():
     emprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all()
-    return render_template('index.html',emprendimientos=emprendimientos)
+    return render_template('emprendimientos.html',emprendimientos=emprendimientos)
+
+@app.route('/misEmprendimientos' , methods=['POST','GET'])
+def misEmprendimientos():
+    misEmprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all() #Falta hacer el query que revise si son los emps del usuario y me da paja hacerlo ahora
+    return render_template('mis_emprendimientos.html',emprendimientos=misEmprendimientos)
 
 
 @app.route('/emprendimiento/<int:id>' , methods=['POST','GET'])
 def emprendimiento(id):
     currentEmprendimiento=Emprendimiento.query.get_or_404(id)
+    return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento) #hagan las views porfa 
 
 
 
