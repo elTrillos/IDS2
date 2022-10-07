@@ -71,6 +71,20 @@ class Opinion(db.Model):
 def index():
         return render_template('login.html')
 
+@app.route('/emprendimientos' , methods=['POST','GET'])
+def emprendimientos():
+    emprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all()
+    return render_template('index.html',emprendimientos=emprendimientos)
+
+
+@app.route('/emprendimiento/<int:id>' , methods=['POST','GET'])
+def emprendimiento(id):
+    currentEmprendimiento=Emprendimiento.query.get_or_404(id)
+
+
+
+
+
 @app.route("/login",methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -102,7 +116,10 @@ def register():
         uname = request.form['username']
         mail = request.form['email']
         passw = request.form['password']
-        register = User(username = uname, email = mail, password = passw)
+        cat = request.form['category']
+        numb = request.form['phone']
+        rname = request.form['name']
+        register = User(username = uname, email = mail, password = passw, category=cat, telefono=numb, nombre=rname)
         db.session.add(register)
         #session["user"] = register
         db.session.commit()
