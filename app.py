@@ -25,47 +25,53 @@ class User(db.Model):
     nombre = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True, nullable=False)
     def __repr__(self):
-        return '<User %r>' % self.username
+        return "<User(username='%s',category='%s',telefono='%s',nombre='%s',email='%s')>" % (
+            self.username,
+            self.category,
+            self.telefono,
+            self.nombre,
+            self.email
+            )
 
 class Emprendimiento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer, nullable=False)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     nombre = db.Column(db.String(80))
     descripcion = db.Column(db.String(80), nullable=False)
-
+    productos = db.relationship('Producto', backref='emprendimiento', lazy=True)
     def __repr__(self):
-        return '<Emprendimiento %r>' % self.name
+        return '<Emprendimiento %r>' % self.id
 
 class Puntuacion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer, nullable=False)
-    id_emprendimiento = db.Column(db.Integer, nullable=False)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
     puntos = db.Column(db.Integer, nullable=False)
     fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __repr__(self):
-        return '<Puntuacion %r>' % self.name
+        return '<Puntuacion %r>' % self.id
 
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(80))
     disponibilidad = db.Column(db.Integer)
     precio = db.Column(db.String(80))
-    id_emprendimiento = db.Column(db.Integer, nullable=False)
+    id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
     fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __repr__(self):
-        return '<Producto %r>' % self.name
+        return '<Producto %r>' % self.id
 
 class Opinion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descripcion = db.Column(db.String(80))
-    id_producto = db.Column(db.Integer, nullable=False)
-    id_user = db.Column(db.Integer, nullable=False)
+    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __repr__(self):
-        return '<Producto %r>' % self.name
+        return '<Producto %r>' % self.id
 
 @app.route('/', methods=['GET','POST']) # login
 def index():
@@ -100,8 +106,15 @@ def misEmprendimientos():
 @app.route('/emprendimiento/<int:id>' , methods=['POST','GET'])
 def emprendimiento(id):
     currentEmprendimiento=Emprendimiento.query.get_or_404(id)
-    return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento) #hagan las views porfa 
+    productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
+    print(productosEmp)
+    return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp ) #hagan las views porfa 
 
+@app.route('producto/<int:id>', methods=['POST','GET'])
+def producto(id):
+    currentProducto=Producto.query.get_or_404(id)
+    return render_template('producto.html',producto=currentProducto) #hagan las views porfa 
+ 
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
     currentProfile=User.query.get_or_404(id)
