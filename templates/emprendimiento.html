@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+<head>
+    <meta charset="utf-8">
+    <title>Emprendimiento register</title>
+</head>
+
+{% block content %}
+<body>
+   <div>
+      <h3> Productos:  </h3>
+      
+
+
+      <div class="row">
+
+         {%for i in range(0, 5)%}
+         <div class="col-sm-3">
+            <div class="card" >
+                <img url="https://imgur.com/ITI4O2F" alt="Logo Uandes Market" class="card-img-top"/>
+               <div class="card-body">
+                  <h5 class="card-title">Nombre Producto</h5>
+                  <p class="card-text">Descripcion</p>
+                  <p class="card-text" >Precio</p>
+               </div>
+            </div>
+         </div>
+         {%endfor%}
+
+
+
+
+         
+      </div>
+
+      
+      </div>
+
+
+
+
+
+      
+   </div>
+
+      
+
+
+</body>
+
+{% endblock %}

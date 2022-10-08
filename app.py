@@ -99,8 +99,8 @@ def misEmprendimientos():
 
 @app.route('/emprendimiento/<int:id>' , methods=['POST','GET'])
 def emprendimiento(id):
-    currentEmprendimiento=Emprendimiento.query.get_or_404(id)
-    return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento) #hagan las views porfa 
+    #currentEmprendimiento=Emprendimiento.query.get_or_404(id)
+    return render_template('emprendimiento.html',emprendimiento=1) #hagan las views porfa 
 
 
 
