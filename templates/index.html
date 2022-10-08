@@ -1,26 +1,65 @@
-<!doctype html>
-{% extends 'base.html' %}
+{% extends './components/base.html' %}
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <meta charset="utf-8" />
+    <title>Home Page</title>
   </head>
-  <body>
-    <h1>Hello, world!</h1>
-  </body>
+
   {% block content %}
   <body>
+    <!-- Filter By Spinner-->
+    <div class="container mt-3 mb-3">
+      <div class="row ml-0" style="max-width: 300px">
+        <div class="col">
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Filtrar por:</span>
+            <select class="form-select" id="inputGroupSelect01">
+              <option value="1">Nombre</option>
+              <option value="2">Fecha</option>
+              <option value="3">Categoria</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
+      <!-- Grid of Entrepeneurships -->
+      <div class="row">
+        {%for i in range(0, 12)%}
+        <div class="card mb-3" style="max-width: 540px">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img
+                src="static/images/logo-red.jpg"
+                class="img-fluid rounded-start"
+                alt="Imagen Emprendimiento"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">Nombre Emprendimiento</h5>
+                <p class="card-text">Categoria: Lorem Ipsum</p>
+                <p class="card-text">Descripcion: Lorem Ipsum Dolor Sin Amet</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+      </div>
 
-    <div style="float: right; width: 40%">
-      <section class="form-login">
-        hola este es el index.html
-        <button onclick="history.back()">volver</button>
-    </selection>
-    <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
-
+      <!-- Next Page Button On Right-->
+      <div class="row justify-content-end mt-3">
+        <div class="col-2">
+          <p>{Page X}/Page{Y}</p>
+          <!-- Page X of Y -->
+        </div>
+        <div class="col-1">
+          <button type="button" class="btn btn-outline-danger">
+            Siguiente
+          </button>
+        </div>
+      </div>
     </div>
-    </body>
-    {% endblock %}
+  </body>
+  {% endblock %}
 </html>
