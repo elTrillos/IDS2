@@ -19,3 +19,16 @@ flask --app app.py --debug run
 
 ### llenar base de datos (WIP pocos datos pero funca)
 python3 prefill_db.py
+
+## Inicializar la base de datos
+1. Borrar archivo instance/test.db
+```
+>python3
+from app import db
+db.create_all()
+```
+### Para poner datos precreados
+```
+>python3
+prefill_db.py
+```
