@@ -15,9 +15,9 @@
          </div>
          <div class="col-md-9">
             <div class="card-body">
-            <h3 class="card-title">Nombre del emprendimiento</h3>
-            <p class="card-text"><small class="text-muted">Categoria</small></p>
-            <p class="card-text">Descripcion</p>
+            <h3 class="card-title">{{emprendimiento.nombre}}</h3>
+            <p class="card-text"><small class="text-muted">{{emprendimiento.categoria}}</small></p>
+            <p class="card-text">{{emprendimiento.descripcion}}</p>
             </div>
          </div>
       </div>
@@ -43,8 +43,8 @@
                />
                <div class="card-body">
                   <h5 class="card-title"> {{pro.nombre}}</h5>
-                  <p class="card-text">Descripcion</p>
-                  <p class="card-text" style="text-align: right;" >Precio: 1000</p>
+                  <p class="card-text">{{pro.descripcion}}</p>
+                  <p class="card-text" style="text-align: right;" >Precio: {{pro.precio}}</p>
                </div>
             </div>
          </div>
