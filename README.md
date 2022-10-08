@@ -16,3 +16,6 @@ pip install flask-sqlalchemy
 
 ### correr el codigo
 flask --app app.py --debug run
+
+### llenar base de datos (WIP pocos datos pero funca)
+python3 prefill_db.py
