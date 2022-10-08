@@ -27,6 +27,7 @@
 
 
 
+
    <div style="margin-top: 10%;">
       <h3> Productos:  </h3>
       
@@ -34,14 +35,14 @@
 
       <div class="row">
 
-         {%for i in range(0, 5)%}
+         {%for pro in productos%}
          <div class="col-sm-3" style="margin-bottom: 2%;">
             <div class="card" >
                <img src="static/images/logo-red.jpg"
                alt="Logo Uandes Market"
                />
                <div class="card-body">
-                  <h5 class="card-title"> Nombre Producto</h5>
+                  <h5 class="card-title"> {{pro.nombre}}</h5>
                   <p class="card-text">Descripcion</p>
                   <p class="card-text" style="text-align: right;" >Precio: 1000</p>
                </div>

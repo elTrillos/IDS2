@@ -105,22 +105,16 @@ def misEmprendimientos():
 
 @app.route('/emprendimiento/<int:id>' , methods=['POST','GET'])
 def emprendimiento(id):
-<<<<<<< HEAD
     currentEmprendimiento=Emprendimiento.query.get_or_404(id)
     productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
     print(productosEmp)
     return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp ) #hagan las views porfa 
-
+"""
 @app.route('producto/<int:id>', methods=['POST','GET'])
 def producto(id):
     currentProducto=Producto.query.get_or_404(id)
-    return render_template('producto.html',producto=currentProducto) #hagan las views porfa 
+    return render_template('producto.html',producto=currentProducto) #hagan las views porfa """
  
-=======
-    #currentEmprendimiento=Emprendimiento.query.get_or_404(id)
-    return render_template('emprendimiento.html',emprendimiento=1) #hagan las views porfa 
-
->>>>>>> 59238189d3565fbfd77caa0079404bc393c2fb19
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
     currentProfile=User.query.get_or_404(id)
