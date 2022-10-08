@@ -29,6 +29,5 @@ db.create_all()
 ```
 ### Para poner datos precreados
 ```
->python3
-prefill_db.py
+>python3 prefill_db.py
 ```
