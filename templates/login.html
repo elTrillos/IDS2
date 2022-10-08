@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+﻿{% extends './components/base.html' %}
 
   <head>
     <meta charset="utf-8">
@@ -20,13 +20,13 @@
                 <form method="POST">
                     <div class="form-group">
                       <label for="email">Username : </label>
-                      <input type="text" name="mail" class="form-control" id="uname">
+                      <input type="text" name="username" class="form-control" id="uname">
                     </div>
                     <div class="form-group mb-2">
                       <label for="email">Password : </label>
-                      <input type="password" name="passw" class="form-control" id="passw">
+                      <input type="password" name="password" class="form-control" id="passw">
                     </div>
-                    <button type="button" class="btn form-control btn-primary">Login</button>
+                    <button type="submit" class="btn form-control btn-primary">Login</button>
                 </form>
                 <div class="col justify-content-center" style="margin-top: 20px">
                   <p class="mb-0">No tienes cuenta?</p>
