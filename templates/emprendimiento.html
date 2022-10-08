@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends './components/base.html' %}
 <head>
     <meta charset="utf-8">
     <title>Emprendimiento register</title>
@@ -6,7 +6,28 @@
 
 {% block content %}
 <body>
-   <div>
+   <div class="card">
+      <div class="row g-0">
+         <div class="col-md-3">
+            <img src="static/images/logo-red.jpg"
+               alt="Logo Uandes Market"
+               />
+         </div>
+         <div class="col-md-9">
+            <div class="card-body">
+            <h3 class="card-title">Nombre del emprendimiento</h3>
+            <p class="card-text"><small class="text-muted">Categoria</small></p>
+            <p class="card-text">Descripcion</p>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+
+
+
+   <div style="margin-top: 10%;">
       <h3> Productos:  </h3>
       
 
@@ -14,22 +35,20 @@
       <div class="row">
 
          {%for i in range(0, 5)%}
-         <div class="col-sm-3">
+         <div class="col-sm-3" style="margin-bottom: 2%;">
             <div class="card" >
-                <img url="https://imgur.com/ITI4O2F" alt="Logo Uandes Market" class="card-img-top"/>
+               <img src="static/images/logo-red.jpg"
+               alt="Logo Uandes Market"
+               />
                <div class="card-body">
-                  <h5 class="card-title">Nombre Producto</h5>
+                  <h5 class="card-title"> Nombre Producto</h5>
                   <p class="card-text">Descripcion</p>
-                  <p class="card-text" >Precio</p>
+                  <p class="card-text" style="text-align: right;" >Precio: 1000</p>
                </div>
             </div>
          </div>
          {%endfor%}
 
-
-
-
-         
       </div>
 
       
