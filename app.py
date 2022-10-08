@@ -87,8 +87,10 @@ def emprendimiento(id):
     currentEmprendimiento=Emprendimiento.query.get_or_404(id)
     return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento) #hagan las views porfa 
 
-
-
+@app.route("/perfil/<int:id>",methods=["GET", "POST"])
+def perfil(id):
+    currentProfile=User.query.get_or_404(id)
+    return render_template('profile.html',profile=currentProfile) #hagan las views porfa 
 
 
 @app.route("/login",methods=["GET", "POST"])
