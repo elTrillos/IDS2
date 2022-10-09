@@ -29,7 +29,7 @@ class User(db.Model):
     telefono = db.Column(db.String(80))
     nombre = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True, nullable=False)
-    emprendimiento = relationship("Emprendimiento", back_populates="user", uselist=False)
+    emprendimiento = relationship("Emprendimiento", back_populates="user")
     def __repr__(self):
         return "<User(username='%s',category='%s',telefono='%s',nombre='%s',email='%s')>" % (
             self.username,
@@ -42,6 +42,7 @@ class User(db.Model):
 class Emprendimiento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = relationship("User", back_populates="emprendimiento")
     nombre = db.Column(db.String(80))
     descripcion = db.Column(db.String(80), nullable=False)
     productos = db.relationship('Producto', backref='emprendimiento', lazy=True)
@@ -102,7 +103,9 @@ def index():
     if not session.get('user_id'):
         return redirect(url_for("login"))  
     else:
-        return render_template('index.html')
+        allProductos=Producto.query.order_by(Producto.id).all()
+        allEmprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all()
+        return render_template('index.html', productos=allProductos, emprendimientos=allEmprendimientos)
 
 @app.route('/emprendimientos' , methods=['POST','GET'])
 def emprendimientos():
