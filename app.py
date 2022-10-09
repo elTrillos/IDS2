@@ -44,6 +44,7 @@ class Emprendimiento(db.Model):
     id_usuario = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = relationship("User", back_populates="emprendimiento")
     nombre = db.Column(db.String(80))
+    categoria = db.Column(db.String(80), nullable=True)
     descripcion = db.Column(db.String(80), nullable=False)
     productos = db.relationship('Producto', backref='emprendimiento', lazy=True)
     imagenes = db.relationship('EmprendimientoImage', backref='emprendimiento', lazy=True)
@@ -117,10 +118,11 @@ def nuevoEmprendimiento():
     if request.method == 'POST':
         emprendimiento_nombre=request.form['nombre']
         emprendimiento_descripcion = request.form['descripcion']
+        emprendimiento_categoria = request.form['categoria']
         user_id=User.query.get_or_404(session['user_id']).id
         file = request.files['file']
         if not file.filename:
-            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre)
+            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria)
             try:
                 db.session.add(newEmp)
                 db.session.commit()
@@ -131,7 +133,7 @@ def nuevoEmprendimiento():
             image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             filename = secure_filename(file.filename)
             image_name=image_name.replace('static/','')
-            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre)
+            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria)
             newImage=EmprendimientoImage(id_emprendimiento=newEmp.id, imagename=image_name)
             try:
                 db.session.add(newEmp)
