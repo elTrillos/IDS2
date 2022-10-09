@@ -92,7 +92,7 @@ class Opinion(db.Model):
 
 @app.route('/', methods=['GET','POST']) # login
 def index():
-    if not session['user_id']:
+    if not session.get('user_id'):
         return redirect(url_for("login"))  
     else:
         return render_template('index.html')
