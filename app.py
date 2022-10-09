@@ -143,7 +143,7 @@ def nuevoEmprendimiento():
                 return 'Xd fallo la wea'
 
     else:
-        return render_template('new_task.html')
+        return render_template('new_emprendimiento.html')
 
 
 @app.route('/misEmprendimientos' , methods=['POST','GET'])
@@ -200,7 +200,7 @@ def nuevoProducto():
                 return 'Xd fallo la wea'
 
     else:
-        return render_template('new_task.html')
+        return render_template('new_producto.html')
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
