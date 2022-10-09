@@ -46,6 +46,7 @@ class Emprendimiento(db.Model):
     nombre = db.Column(db.String(80))
     categoria = db.Column(db.String(80), nullable=True)
     descripcion = db.Column(db.String(80), nullable=False)
+    imagen_name=db.Column(db.String(80), nullable=True)
     productos = db.relationship('Producto', backref='emprendimiento', lazy=True)
     imagenes = db.relationship('EmprendimientoImage', backref='emprendimiento', lazy=True)
     def __repr__(self):
@@ -74,6 +75,7 @@ class Producto(db.Model):
     nombre = db.Column(db.String(80))
     descripcion = db.Column(db.Text)
     disponibilidad = db.Column(db.Integer)
+    imagen_name=db.Column(db.String(80), nullable=True)
     precio = db.Column(db.String(80))
     id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
     imagenes = db.relationship('ProductImage', backref='producto', lazy=True)
@@ -133,7 +135,7 @@ def nuevoEmprendimiento():
             image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             filename = secure_filename(file.filename)
             image_name=image_name.replace('static/','')
-            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria)
+            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria, imagen_name=image_name)
             newImage=EmprendimientoImage(id_emprendimiento=newEmp.id, imagename=image_name)
             try:
                 db.session.add(newEmp)
@@ -192,7 +194,7 @@ def nuevoProducto():
             image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             filename = secure_filename(file.filename)
             image_name=image_name.replace('static/','')
-            newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha)
+            newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha, imagen_name=image_name)
             newImage=ProductImage(id_producto=newProd.id, imagename=image_name)
             try:
                 db.session.add(newProd)
