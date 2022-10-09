@@ -144,7 +144,7 @@ def login():
         print(session['user_id'])
         if login is not None:
             print("xdddasdeasd")
-            return render_template('index.html')
+            return redirect(url_for("index"))  
     return render_template("login.html")
 
 @app.route('/logout')
