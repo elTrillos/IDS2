@@ -56,7 +56,7 @@ class EmprendimientoImage(db.Model):
     imagename = db.Column(db.Text(), nullable = True)
     id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
     def __repr__(self):
-        return '<Producto %r>' % self.id
+        return '<EmprendimientoImage %r>' % self.id
 
 class Puntuacion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -86,7 +86,7 @@ class ProductImage(db.Model):
     imagename = db.Column(db.Text(), nullable = True)
     id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
     def __repr__(self):
-        return '<Producto %r>' % self.id
+        return '<ProductoImage %r>' % self.id
 
 class Opinion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -155,14 +155,16 @@ def misEmprendimientos():
 @app.route('/emprendimiento/<int:id>' , methods=['POST','GET'])
 def emprendimiento(id):
     currentEmprendimiento=Emprendimiento.query.get_or_404(id)
+    imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
     productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
     print(productosEmp)
-    return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp ) #hagan las views porfa 
+    return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ) #hagan las views porfa 
 
 @app.route('/producto/<int:id>', methods=['POST','GET'])
 def producto(id):
     currentProducto=Producto.query.get_or_404(id)
-    return render_template('producto.html',producto=currentProducto) #hagan las views porfa
+    imagenesProd=db.session.query(ProductImage).join(Producto).filter(ProductImage.id_producto==id).all()
+    return render_template('producto.html',producto=currentProducto,imagenes=imagenesProd) #hagan las views porfa
 
 @app.route('/nuevoProducto', methods=['POST','GET'])
 def nuevoProducto():
@@ -250,10 +252,6 @@ def register():
         return redirect(url_for("login"))    
     return render_template("register.html")
 
-@app.route("/index", methods=["GET", "POST"])
-def indexIn():
-    allProductos=Producto.query.order_by(Producto.id).all()
-    return render_template("index.html",productos=allProductos)
 if __name__ =="__main__":
     app.config['SESSION_TYPE'] = 'filesystem'
 
