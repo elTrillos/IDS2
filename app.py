@@ -99,22 +99,10 @@ class Opinion(db.Model):
 
 @app.route('/', methods=['GET','POST']) # login
 def index():
-    if request.method == "POST":
-        uname = request.form["username"]
-        passw = request.form["password"]
-        login = User.query.filter_by(username=uname, password=passw).first()
-        #session['username'] = uname
-        #session['taskTodo'] = login.current_todo
-        #session['taskStep'] = login.current_step
-        #session['user_id'] = login.id
-        print(login)
-        if login is not None:
-            #if login.category=='teacher':
-            #    return redirect(url_for("index"))
-            #else:
-            print("llendo al index")
-            return redirect('/index')
-    return render_template('login.html')
+    if not session.get('user_id'):
+        return redirect(url_for("login"))  
+    else:
+        return render_template('index.html')
 
 @app.route('/emprendimientos' , methods=['POST','GET'])
 def emprendimientos():
@@ -234,7 +222,7 @@ def login():
         print(session['user_id'])
         if login is not None:
             print("xdddasdeasd")
-            return render_template('index.html')
+            return redirect(url_for("index"))
     return render_template("login.html")
 
 @app.route('/logout')
