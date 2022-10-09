@@ -25,7 +25,7 @@
 
       <!-- Grid of Entrepeneurships -->
       <div class="row">
-        {%for i in range(0, productos|length )%}
+        {%for i in range(0, emprendimientos|length )%}
         <div class="card mb-3" style="max-width: 540px">
           <div class="row g-0">
             <div class="col-md-4">
@@ -37,9 +37,9 @@
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">{{productos[i].nombre}}</h5>
-                <p class="card-text">Categoria: {{productos[i].nombre}}</p>
-                <p class="card-text">Descripcion: {{productos[i].descripcion}}</p>
+                <h5 class="card-title">{{emprendimientos[i].nombre}}</h5>
+                <p class="card-text">Descripcion: {{emprendimientos[i].descripcion}}</p>
+                <p class="card-text">Cantidad de Productos: {{emprendimientos[i].productos|length}}</p>
               </div>
             </div>
           </div>
@@ -49,15 +49,17 @@
 
       <!-- Next Page Button On Right-->
       <div class="row justify-content-end mt-3">
-        <div class="col-2">
-          <p>{Page X}/Page{Y}</p>
+        <div class="col">
+          <p>Mostrando {{emprendimientos|length}} resultados</p>
           <!-- Page X of Y -->
         </div>
+      <!-- Boton en caso de que quieramos hacer esto con paginas
         <div class="col-1">
           <button type="button" class="btn btn-outline-danger">
             Siguiente
           </button>
         </div>
+      -->
       </div>
     </div>
   </body>
