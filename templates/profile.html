@@ -1,0 +1,17 @@
+{% extends './components/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+  {% block content %}
+  <div class="card" style="width: 50rem;">
+    <div class="card-body">
+      <h1 class="card-title", style="text-align: center;">Perfil</h1>
+      <p class="card-text">Username: {{profile.username}}</p>
+      <p class="card-text">Nombre: {{profile.nombre}}</p>
+      <p class="card-text">Mail: {{profile.email}}</p>
+      <p class="card-text">Telefono: {{profile.telefono}}</p>
+      <a href="#" class="btn btn-primary", style="justify-content: center;">Logout</a>
+    </div>
+  </div>
+  {% endblock %}
+</html>
