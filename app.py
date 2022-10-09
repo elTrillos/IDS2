@@ -5,13 +5,18 @@ from xmlrpc.client import DateTime
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+from werkzeug.utils import secure_filename
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 import os
 
 app = Flask(__name__)
+TEMP_PATH = './static/temp'
+UPLOAD_FOLDER = './static/upload'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'super secret key'
 db = SQLAlchemy(app)
 app.app_context().push()
@@ -24,6 +29,7 @@ class User(db.Model):
     telefono = db.Column(db.String(80))
     nombre = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True, nullable=False)
+    emprendimiento = relationship("Emprendimiento", back_populates="user", uselist=False)
     def __repr__(self):
         return "<User(username='%s',category='%s',telefono='%s',nombre='%s',email='%s')>" % (
             self.username,
@@ -42,6 +48,7 @@ class Emprendimiento(db.Model):
     imagenes = db.relationship('EmprendimientoImage', backref='emprendimiento', lazy=True)
     def __repr__(self):
         return '<Emprendimiento %r>' % self.id
+
 
 class EmprendimientoImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -102,6 +109,40 @@ def emprendimientos():
     emprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all()
     return render_template('emprendimientos.html',emprendimientos=emprendimientos)
 
+@app.route('/nuevoEmprendimiento', methods=['POST','GET'])
+def nuevoEmprendimiento():
+    if request.method == 'POST':
+        emprendimiento_nombre=request.form['nombre']
+        emprendimiento_descripcion = request.form['descripcion']
+        user_id=User.query.get_or_404(session['user_id']).id
+        file = request.files['file']
+        if not file.filename:
+            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre)
+            try:
+                db.session.add(newEmp)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'Xd fallo la wea'
+        else:
+            image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            filename = secure_filename(file.filename)
+            image_name=image_name.replace('static/','')
+            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre)
+            newImage=EmprendimientoImage(id_emprendimiento=newEmp.id, imagename=image_name)
+            try:
+                db.session.add(newEmp)
+                db.session.add(newImage)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'Xd fallo la wea'
+
+    else:
+        return render_template('new_task.html')
+
+
 @app.route('/misEmprendimientos' , methods=['POST','GET'])
 def misEmprendimientos():
     misEmprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all() #Falta hacer el query que revise si son los emps del usuario y me da paja hacerlo ahora
@@ -119,6 +160,44 @@ def emprendimiento(id):
 def producto(id):
     currentProducto=Producto.query.get_or_404(id)
     return render_template('producto.html',producto=currentProducto) #hagan las views porfa
+
+@app.route('/nuevoProducto', methods=['POST','GET'])
+def nuevoProducto():
+    if request.method == 'POST':
+        user_id=User.query.get_or_404(session['user_id']).id
+        producto_nombre=request.form['nombre']
+        producto_descripcion = request.form['descripcion']
+        producto_disponibilidad = int(request.form['disponibilidad'])
+        producto_precio = int(request.form['precio'])
+        producto_fecha= request.form['fecha']
+        producto_emprendimiento_id=db.session.query(Emprendimiento).join(Producto).filter(Emprendimiento.id_usuario==user_id).first().id
+        user_id=User.query.get_or_404(session['user_id']).id
+        file = request.files['file']
+        if not file.filename:
+            newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha)
+            try:
+                db.session.add(newProd)
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'Xd fallo la wea'
+        else:
+            image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            filename = secure_filename(file.filename)
+            image_name=image_name.replace('static/','')
+            newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha)
+            newImage=ProductImage(id_producto=newProd.id, imagename=image_name)
+            try:
+                db.session.add(newProd)
+                db.session.add(newImage)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                db.session.commit()
+                return redirect('/')
+            except:
+                return 'Xd fallo la wea'
+
+    else:
+        return render_template('new_task.html')
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
