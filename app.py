@@ -118,8 +118,13 @@ def producto(id):
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
-    currentProfile=User.query.get_or_404(id)
+    currentProfile=User.query.get_or_404(id) #current_user = User.query.get_or_404(session['user_id'])
     return render_template('profile.html',profile=currentProfile) #hagan las views porfa 
+
+@app.route("/miPerfil/<int:id>",methods=["GET", "POST"])
+def miPerfil(id):
+    current_user = User.query.get_or_404(session['user_id'])
+    return render_template('profile.html',profile=current_user) #hagan las views porfa 
 
 
 @app.route("/login",methods=["GET", "POST"])
