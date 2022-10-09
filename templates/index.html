@@ -26,7 +26,7 @@
       <!-- Grid of Entrepeneurships -->
       <div class="row">
         {%for i in range(0, emprendimientos|length )%}
-        <div class="card mb-3" style="max-width: 540px">
+        <div onclick="location.href='/emprendimiento/'+{{emprendimientos[i].id}};" class="card mb-3"  style="max-width: 540px; cursor: pointer;">
           <div class="row g-0">
             <div class="col-md-4">
               <img
