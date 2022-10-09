@@ -55,6 +55,7 @@ class Puntuacion(db.Model):
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(80))
+    descripcion = db.Column(db.Text)
     disponibilidad = db.Column(db.Integer)
     precio = db.Column(db.String(80))
     id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
@@ -109,11 +110,11 @@ def emprendimiento(id):
     productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
     print(productosEmp)
     return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp ) #hagan las views porfa 
-"""
-@app.route('producto/<int:id>', methods=['POST','GET'])
+
+@app.route('/producto/<int:id>', methods=['POST','GET'])
 def producto(id):
     currentProducto=Producto.query.get_or_404(id)
-    return render_template('producto.html',producto=currentProducto) #hagan las views porfa """
+    return render_template('producto.html',producto=currentProducto) #hagan las views porfa
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
@@ -165,7 +166,8 @@ def register():
 
 @app.route("/index", methods=["GET", "POST"])
 def indexIn():
-    return render_template("index.html")
+    allProductos=Producto.query.order_by(Producto.id).all()
+    return render_template("index.html",productos=allProductos)
 if __name__ =="__main__":
     app.config['SESSION_TYPE'] = 'filesystem'
 
