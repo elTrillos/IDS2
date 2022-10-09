@@ -39,8 +39,16 @@ class Emprendimiento(db.Model):
     nombre = db.Column(db.String(80))
     descripcion = db.Column(db.String(80), nullable=False)
     productos = db.relationship('Producto', backref='emprendimiento', lazy=True)
+    imagenes = db.relationship('EmprendimientoImage', backref='emprendimiento', lazy=True)
     def __repr__(self):
         return '<Emprendimiento %r>' % self.id
+
+class EmprendimientoImage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    imagename = db.Column(db.Text(), nullable = True)
+    id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
+    def __repr__(self):
+        return '<Producto %r>' % self.id
 
 class Puntuacion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -59,8 +67,16 @@ class Producto(db.Model):
     disponibilidad = db.Column(db.Integer)
     precio = db.Column(db.String(80))
     id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
+    imagenes = db.relationship('ProductImage', backref='producto', lazy=True)
     fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
+    def __repr__(self):
+        return '<Producto %r>' % self.id
+
+class ProductImage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    imagename = db.Column(db.Text(), nullable = True)
+    id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
     def __repr__(self):
         return '<Producto %r>' % self.id
 
@@ -134,17 +150,13 @@ def login():
         passw = request.form["password"]
         login = User.query.filter_by(username=uname, password=passw).first()
         session['username'] = uname
-        session['taskTodo'] = login.current_todo
-        session['taskStep'] = login.current_step
         session['user_id'] = login.id
-        print(login)
+        print("xd")
+        print(login.id)
+        print(session['user_id'])
         if login is not None:
-            if login.category=='teacher':
-                return redirect(url_for("index"))
-            else:
-                print("xdddasdeasd")
-                current_user_category = User.query.get_or_404(session['user_id']).category
-                return render_template('index.html')
+            print("xdddasdeasd")
+            return render_template('index.html')
     return render_template("login.html")
 
 @app.route('/logout')
