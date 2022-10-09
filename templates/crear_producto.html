@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Formulario Producto</title>
+</head>
+
+{% block content %}
+
+<body>
+    <div style="float: left; width: 60%; padding-right: 50px">
+        <img src="static/images/logo-transparent.png" alt="Logo Uandes Market" width="90%" height="auto">
+
+    </div>
+
+    <div style="float: right; width: 40%">
+        <section class="form-register">
+            <div class="container">
+                <div class="row justify-content-center" style="margin-top: 50%">
+                    <div class="col-sm">
+                        <form method="POST">
+                            <div class="form-group">
+                                <label for="name">Nombre : </label>
+                                <input type="text" placeholder="Ingresar nombre del producto" name="name"
+                                    class="form-control" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="descripcion">Descripcion : </label>
+                                <input type="text" placeholder="Ingresar descripcion del producto" descripcion="descripcion"
+                                    class="form-control" id="descripcion">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="disponibilidad">Disponibilidad : </label>
+                                <select name="disponibilidad" id="disponibilidad">
+                                    <option value="Disponible">Disponible</option>
+                                    <option value="Agotado">Agotado</option>
+                                </select>
+                            </div>
+                            <div class="form-group mb-4">
+                                <label for="precio">Precio : </label>
+                                <input type="precio" placeholder="0" name="precio" class="form-control" id="precio">
+                            </div>
+                        </form>
+                        <button class="btn form-control btn-default" id="saveData" type="button"
+                            value="Guardar producto" onclick="saveData();"><a href='/'>Crear Producto</a></button>
+                        <button onclick="history.back()">Volver</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </selection>
+    <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
+
+    </div>
+</body>
+<script>
+    function saveData() {
+        var formData = new FormData();
+        formData.append("content", "Nombre")
+
+        var name = document.getElementById("name").value
+        formData.append("name", name)
+        
+        var descripcion = document.getElementById("descripcion").value
+        formData.append("descripcion", descripcion)
+
+        var disponibilidad = document.getElementById("disponibilidad").value
+        console.log(disponibilidad)
+        formData.append("disponibilidad", disponibilidad)
+
+        var precio = parseInt(document.getElementById("precio").value)
+        console.log(precio)
+        formData.append("precio", precio)
+
+        const request = new XMLHttpRequest()
+        request.open("POST", '/register')
+        request.send(formData)
+        console.log(request)
+    }
+    document.getElementById("saveData").onclick = function () { saveData(); };
+</script>
