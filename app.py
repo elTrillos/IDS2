@@ -11,11 +11,14 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 
+#Nombre de la base de datos
+DB_NAME = "test.db"
+
 app = Flask(__name__)
 TEMP_PATH = './static/temp'
 UPLOAD_FOLDER = './static/upload'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'super secret key'
 db = SQLAlchemy(app)
@@ -100,6 +103,11 @@ class Opinion(db.Model):
 
     def __repr__(self):
         return '<Producto %r>' % self.id
+    
+if not os.path.exists('instance/' + DB_NAME):
+    with app.app_context():
+            db.create_all()
+            print("Database Created")
 
 @app.route('/', methods=['GET','POST']) # login
 def index():
@@ -255,6 +263,8 @@ def register():
         db.session.commit()
         return redirect(url_for("login"))    
     return render_template("register.html")
+
+
 
 if __name__ =="__main__":
     app.config['SESSION_TYPE'] = 'filesystem'
