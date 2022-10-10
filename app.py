@@ -206,7 +206,7 @@ def nuevoProducto():
                 return 'Xd fallo la wea'
 
     else:
-        return render_template('new_producto.html')
+        return render_template('crear_producto.html')
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
