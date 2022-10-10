@@ -124,3 +124,7 @@
     background-color: red;
   }
   
+  .topnav-right {
+    float: right;
+    text-align: right;
+  }
