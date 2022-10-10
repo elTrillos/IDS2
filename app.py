@@ -120,111 +120,135 @@ def index():
 
 @app.route('/emprendimientos' , methods=['POST','GET'])
 def emprendimientos():
-    emprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all()
-    return render_template('emprendimientos.html',emprendimientos=emprendimientos)
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:    
+        emprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all()
+        return render_template('emprendimientos.html',emprendimientos=emprendimientos)
 
 @app.route('/nuevoEmprendimiento', methods=['POST','GET'])
 def nuevoEmprendimiento():
-    if request.method == 'POST':
-        emprendimiento_nombre=request.form['nombre']
-        emprendimiento_descripcion = request.form['descripcion']
-        emprendimiento_categoria = request.form['categoria']
-        user_id=User.query.get_or_404(session['user_id']).id
-        file = request.files['file']
-        if not file.filename:
-            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria)
-            try:
-                db.session.add(newEmp)
-                db.session.commit()
-                return redirect('/')
-            except:
-                return 'Xd fallo la wea'
-        else:
-            image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            filename = secure_filename(file.filename)
-            image_name=image_name.replace('static/','')
-            newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria, imagen_name=image_name)
-            newImage=EmprendimientoImage(id_emprendimiento=newEmp.id, imagename=image_name)
-            try:
-                db.session.add(newEmp)
-                db.session.add(newImage)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                db.session.commit()
-                return redirect('/')
-            except:
-                return 'Xd fallo la wea'
-
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
     else:
-        return render_template('new_emprendimiento.html')
+        if request.method == 'POST':
+            emprendimiento_nombre=request.form['nombre']
+            emprendimiento_descripcion = request.form['descripcion']
+            emprendimiento_categoria = request.form['categoria']
+            user_id=User.query.get_or_404(session['user_id']).id
+            file = request.files['file']
+            if not file.filename:
+                newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria)
+                try:
+                    db.session.add(newEmp)
+                    db.session.commit()
+                    return redirect('/')
+                except:
+                    return 'Xd fallo la wea'
+            else:
+                image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                filename = secure_filename(file.filename)
+                image_name=image_name.replace('static/','')
+                newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria, imagen_name=image_name)
+                newImage=EmprendimientoImage(id_emprendimiento=newEmp.id, imagename=image_name)
+                try:
+                    db.session.add(newEmp)
+                    db.session.add(newImage)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    db.session.commit()
+                    return redirect('/')
+                except:
+                    return 'Xd fallo la wea'
+
+        else:
+            return render_template('new_emprendimiento.html')
 
 
 @app.route('/misEmprendimientos' , methods=['POST','GET'])
 def misEmprendimientos():
-    misEmprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all() #Falta hacer el query que revise si son los emps del usuario y me da paja hacerlo ahora
-    return render_template('mis_emprendimientos.html',emprendimientos=misEmprendimientos)
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:
+        misEmprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all() #Falta hacer el query que revise si son los emps del usuario y me da paja hacerlo ahora
+        return render_template('mis_emprendimientos.html',emprendimientos=misEmprendimientos)
 
 
 @app.route('/emprendimiento/<int:id>' , methods=['POST','GET'])
 def emprendimiento(id):
-    currentEmprendimiento=Emprendimiento.query.get_or_404(id)
-    imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
-    productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
-    print(productosEmp)
-    return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ) #hagan las views porfa 
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:
+        currentEmprendimiento=Emprendimiento.query.get_or_404(id)
+        imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
+        productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
+        print(productosEmp)
+        return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ) #hagan las views porfa 
 
 @app.route('/producto/<int:id>', methods=['POST','GET'])
 def producto(id):
-    currentProducto=Producto.query.get_or_404(id)
-    imagenesProd=db.session.query(ProductImage).join(Producto).filter(ProductImage.id_producto==id).all()
-    return render_template('producto.html',producto=currentProducto,imagenes=imagenesProd) #hagan las views porfa
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:
+        currentProducto=Producto.query.get_or_404(id)
+        imagenesProd=db.session.query(ProductImage).join(Producto).filter(ProductImage.id_producto==id).all()
+        return render_template('producto.html',producto=currentProducto,imagenes=imagenesProd) #hagan las views porfa
 
 @app.route('/nuevoProducto', methods=['POST','GET'])
 def nuevoProducto():
-    if request.method == 'POST':
-        user_id=User.query.get_or_404(session['user_id']).id
-        producto_nombre=request.form['nombre']
-        producto_descripcion = request.form['descripcion']
-        producto_disponibilidad = int(request.form['disponibilidad'])
-        producto_precio = int(request.form['precio'])
-        producto_fecha= request.form['fecha']
-        producto_emprendimiento_id=db.session.query(Emprendimiento).join(Producto).filter(Emprendimiento.id_usuario==user_id).first().id
-        user_id=User.query.get_or_404(session['user_id']).id
-        file = request.files['file']
-        if not file.filename:
-            newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha)
-            try:
-                db.session.add(newProd)
-                db.session.commit()
-                return redirect('/')
-            except:
-                return 'Xd fallo la wea'
-        else:
-            image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            filename = secure_filename(file.filename)
-            image_name=image_name.replace('static/','')
-            newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha, imagen_name=image_name)
-            newImage=ProductImage(id_producto=newProd.id, imagename=image_name)
-            try:
-                db.session.add(newProd)
-                db.session.add(newImage)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                db.session.commit()
-                return redirect('/')
-            except:
-                return 'Xd fallo la wea'
-
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
     else:
-        return render_template('crear_producto.html')
+        if request.method == 'POST':
+            user_id=User.query.get_or_404(session['user_id']).id
+            producto_nombre=request.form['nombre']
+            producto_descripcion = request.form['descripcion']
+            producto_disponibilidad = int(request.form['disponibilidad'])
+            producto_precio = int(request.form['precio'])
+            producto_fecha= request.form['fecha']
+            producto_emprendimiento_id=db.session.query(Emprendimiento).join(Producto).filter(Emprendimiento.id_usuario==user_id).first().id
+            user_id=User.query.get_or_404(session['user_id']).id
+            file = request.files['file']
+            if not file.filename:
+                newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha)
+                try:
+                    db.session.add(newProd)
+                    db.session.commit()
+                    return redirect('/')
+                except:
+                    return 'Xd fallo la wea'
+            else:
+                image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                filename = secure_filename(file.filename)
+                image_name=image_name.replace('static/','')
+                newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha, imagen_name=image_name)
+                newImage=ProductImage(id_producto=newProd.id, imagename=image_name)
+                try:
+                    db.session.add(newProd)
+                    db.session.add(newImage)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    db.session.commit()
+                    return redirect('/')
+                except:
+                    return 'Xd fallo la wea'
+
+        else:
+            return render_template('crear_producto.html')
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
-    currentProfile=User.query.get_or_404(id) #current_user = User.query.get_or_404(session['user_id'])
-    return render_template('profile.html',profile=currentProfile) #hagan las views porfa 
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:   
+        currentProfile=User.query.get_or_404(id) #current_user = User.query.get_or_404(session['user_id'])
+        return render_template('profile.html',profile=currentProfile) #hagan las views porfa 
 
 @app.route("/miPerfil",methods=["GET", "POST"])
 def miPerfil():
-    current_user = User.query.get_or_404(session['user_id'])
-    return render_template('profile.html',profile=current_user) #hagan las views porfa 
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:
+        current_user = User.query.get_or_404(session['user_id'])
+        return render_template('profile.html',profile=current_user) #hagan las views porfa 
 
 
 @app.route("/login",methods=["GET", "POST"])
