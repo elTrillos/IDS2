@@ -1,3 +1,4 @@
+{% block content %}
 <nav class="nav justify-content-left" style="background-color: #e20118">
   <li class="nav-item">
     <a class="nav-link">
@@ -8,8 +9,15 @@
     <a href='/' style="color: aliceblue; font-weight: 900; font-size:40px; text-decoration: none;">
         UAndes Market
     </a>
-    <a href='/miPerfil' style="color: aliceblue; font-weight: 900; font-size:40px; text-decoration: none;" text-align: right>
-        Profile
+      <a href='/' style="color: #e20118; font-weight: 900; font-size:40px; text-decoration: none; width:80%">
+          udhdudhudhduhudhduhhbhbhd
     </a>
+      {% if  session['user_id'] %}
+        <a href='/miPerfil' style="color: aliceblue; font-weight: 900; font-size:40px; text-decoration: none;" >
+            Profile
+        </a>
+        {% endif %}
   </li>
 </nav>
+
+{% endblock %}
