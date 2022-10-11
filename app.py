@@ -136,29 +136,36 @@ def nuevoEmprendimiento():
             emprendimiento_descripcion = request.form['descripcion']
             emprendimiento_categoria = request.form['categoria']
             user_id=User.query.get_or_404(session['user_id']).id
-            file = request.files['file']
-            if not file.filename:
+            print("xd")
+            try:
+                print("xd")
+                file = request.files['photo']
+                image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                filename = secure_filename(file.filename)
+                image_name=image_name.replace('./static/upload/','')
+                newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria, imagen_name=image_name)
+                #newImage=EmprendimientoImage(id_emprendimiento=newEmp.id, imagename=image_name)
+                print("xd")
+                try:
+                    db.session.add(newEmp)
+                    #db.session.add(newImage)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    db.session.commit()
+                    return redirect('/')
+                except:
+                    print("xd")
+                    return 'Xd fallo la wea'
+            except:
+                print("xd")
                 newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria)
                 try:
                     db.session.add(newEmp)
                     db.session.commit()
                     return redirect('/')
                 except:
+                    print("xd")
                     return 'Xd fallo la wea'
-            else:
-                image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-                filename = secure_filename(file.filename)
-                image_name=image_name.replace('static/','')
-                newEmp = Emprendimiento(descripcion = emprendimiento_descripcion,id_usuario=user_id, nombre=emprendimiento_nombre, categoria=emprendimiento_categoria, imagen_name=image_name)
-                newImage=EmprendimientoImage(id_emprendimiento=newEmp.id, imagename=image_name)
-                try:
-                    db.session.add(newEmp)
-                    db.session.add(newImage)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    db.session.commit()
-                    return redirect('/')
-                except:
-                    return 'Xd fallo la wea'
+
 
         else:
             return render_template('crear_emprendimiento.html')
