@@ -220,15 +220,22 @@ def nuevoProducto():
             producto_emprendimiento_id=db.session.query(Emprendimiento).filter(Emprendimiento.id_usuario==user_id).first().id
             user_id=User.query.get_or_404(session['user_id']).id
             try:
+                print("debug1")
                 file = request.files['photo']
+                print("debug2")
                 image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                print("debug3")
                 filename = secure_filename(file.filename)
+                print("debug4")
                 image_name=image_name.replace('./static/upload/','')
+                print("debug5")
                 newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio, imagen_name=image_name)
                 try:
                     db.session.add(newProd)
                     #db.session.add(newImage)
+                    print("debug6")
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    print("debug7")
                     db.session.commit()
                     return redirect('/')
                 except:
