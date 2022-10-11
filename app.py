@@ -230,7 +230,7 @@ def nuevoProducto():
             print("debug1")
             user_id=User.query.get_or_404(session['user_id']).id
             try:
-                print("debug1")
+                #print("debug1")
                 file = request.files['photo']
                 print("debug2")
                 image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
