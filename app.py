@@ -116,7 +116,8 @@ def index():
     else:
         allProductos=Producto.query.order_by(Producto.id).all()
         allEmprendimientos=Emprendimiento.query.order_by(Emprendimiento.id).all()
-        return render_template('index.html', productos=allProductos, emprendimientos=allEmprendimientos)
+        producto_emprendimiento_id=db.session.query(Emprendimiento).filter(Emprendimiento.id_usuario==session.get('user_id')).first()
+        return render_template('index.html', productos=allProductos, emprendimientos=allEmprendimientos, misEmps=producto_emprendimiento_id)
 
 @app.route('/emprendimientos' , methods=['POST','GET'])
 def emprendimientos():

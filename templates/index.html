@@ -63,6 +63,12 @@
       -->
       </div>
     </div>
+    {% if misEmps.id_usuario %}
+    {%else%}
+    <a href='/nuevoEmprendimiento' style="color: rgb(233, 33, 33); font-weight: 900; font-size:40px;">
+      Crear Emprendimiento
+    </a>
+    {%endif%}
   </body>
   {% endblock %}
 </html>
