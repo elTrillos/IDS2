@@ -36,13 +36,14 @@
                                     <option value="Agotado">Agotado</option>
                                 </select>
                             </div>
+                            <input type="file" name="file" id="file" accept ="image/*">
                             <div class="form-group mb-4">
                                 <label for="precio">Precio : </label>
                                 <input type="precio" placeholder="0" name="precio" class="form-control" id="precio">
                             </div>
                         </form>
                         <button class="btn form-control btn-default" id="saveData" type="button"
-                            value="Guardar producto" onclick="saveData();"><a href='/'>Crear Producto</a></button>
+                            value="Guardar producto" onclick="saveData()"><a href='/'>Crear Producto</a></button>
                         <button onclick="history.back()">Volver</button>
                     </div>
                 </div>
@@ -53,14 +54,14 @@
 
     </div>
 </body>
- {% endblock %}
+
 <script>
     function saveData() {
         var formData = new FormData();
         formData.append("content", "Nombre")
 
         var name = document.getElementById("name").value
-        formData.append("name", name)
+        formData.append("nombre", name)
         
         var descripcion = document.getElementById("descripcion").value
         formData.append("descripcion", descripcion)
@@ -68,15 +69,18 @@
         var disponibilidad = document.getElementById("disponibilidad").value
         console.log(disponibilidad)
         formData.append("disponibilidad", disponibilidad)
-
+        var image= document.getElementById("file").files[0]
+        console.log(image)
+        formData.append("file", image)
+        console.log(formData['file'])
         var precio = parseInt(document.getElementById("precio").value)
         console.log(precio)
         formData.append("precio", precio)
-
         const request = new XMLHttpRequest()
-        request.open("POST", '/register')
+        request.open("POST", '/nuevoProducto')
         request.send(formData)
         console.log(request)
     }
     document.getElementById("saveData").onclick = function () { saveData(); };
 </script>
+{% endblock %}

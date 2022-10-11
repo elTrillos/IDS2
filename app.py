@@ -202,36 +202,46 @@ def nuevoProducto():
             user_id=User.query.get_or_404(session['user_id']).id
             producto_nombre=request.form['nombre']
             producto_descripcion = request.form['descripcion']
-            producto_disponibilidad = int(request.form['disponibilidad'])
+            producto_disponibilidad = request.form['disponibilidad']
             producto_precio = int(request.form['precio'])
-            producto_fecha= request.form['fecha']
+            #producto_fecha= datetime.now
             producto_emprendimiento_id=db.session.query(Emprendimiento).join(Producto).filter(Emprendimiento.id_usuario==user_id).first().id
             user_id=User.query.get_or_404(session['user_id']).id
-            file = request.files['file']
-            if not file.filename:
-                newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha)
-                try:
-                    db.session.add(newProd)
-                    db.session.commit()
-                    return redirect('/')
-                except:
-                    return 'Xd fallo la wea'
-            else:
+            try:
+                file = request.files['file']
+                print("aaaab")
                 image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
                 filename = secure_filename(file.filename)
                 image_name=image_name.replace('static/','')
-                newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio,fecha=producto_fecha, imagen_name=image_name)
-                newImage=ProductImage(id_producto=newProd.id, imagename=image_name)
+                newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio, imagen_name=image_name)
+                #newImage=ProductImage(id_producto=newProd.id, imagename=image_name)
+                try:
+                    print("uuuu")
+                    db.session.add(newProd)
+                    print(newProd)
+                    #db.session.add(newImage)
+                    print("a?")
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    print("a?")
+                    db.session.commit()
+                    print("a?")
+                    print(misProductos=Producto.query.order_by(Producto.id).all())
+                    return redirect('/')
+                except:
+                    return 'Xd fallo la wea'
+            except:
+                print("aaaa")
+                newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio)
                 try:
                     db.session.add(newProd)
-                    db.session.add(newImage)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                     db.session.commit()
+                    print(misProductos=Producto.query.order_by(Producto.id).all())
                     return redirect('/')
                 except:
                     return 'Xd fallo la wea'
 
         else:
+            print(session['user_id'])
             return render_template('crear_producto.html')
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
@@ -281,6 +291,8 @@ def register():
         cat = request.form['category']
         numb = request.form['phone']
         rname = request.form['name']
+        uname = request.form["username"]
+        passw = request.form["password"]
         register = User(username = uname, email = mail, password = passw, category=cat, telefono=numb, nombre=rname)
         db.session.add(register)
         #session["user"] = register
