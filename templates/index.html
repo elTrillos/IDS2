@@ -29,16 +29,11 @@
         <div onclick="location.href='/emprendimiento/'+{{emprendimientos[i].id}};" class="card mb-3"  style="max-width: 540px; cursor: pointer;">
           <div class="row g-0">
             <div class="col-md-4">
-              {% if productos[i].imagen_name %}
-               <img src="{{ url_for('static', filename= "upload/"+emprendimientos[i].imagen_name) }}" class="img-thumbnail"/>
-               {% else %}
-               <img
+              <img
                 src="static/images/logo-red.jpg"
                 class="img-fluid rounded-start"
                 alt="Imagen Emprendimiento"
               />
-               {% endif %}
-              
             </div>
             <div class="col-md-8">
               <div class="card-body">

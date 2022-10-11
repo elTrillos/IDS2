@@ -295,9 +295,10 @@ def register():
         cat = request.form['category']
         numb = request.form['phone']
         rname = request.form['name']
-        uname = request.form["username"]
-        passw = request.form["password"]
+        
         register = User(username = uname, email = mail, password = passw, category=cat, telefono=numb, nombre=rname)
+        session['username'] = uname
+        session['user_id'] = register.id
         db.session.add(register)
         #session["user"] = register
         db.session.commit()
