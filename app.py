@@ -161,7 +161,7 @@ def nuevoEmprendimiento():
                     return 'Xd fallo la wea'
 
         else:
-            return render_template('new_emprendimiento.html')
+            return render_template('crear_emprendimiento.html')
 
 
 @app.route('/misEmprendimientos' , methods=['POST','GET'])
@@ -179,10 +179,13 @@ def emprendimiento(id):
         return redirect(url_for("login"))
     else:
         currentEmprendimiento=Emprendimiento.query.get_or_404(id)
+        
         imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
         productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
+        user_id=User.query.get_or_404(session['user_id']).id
+        #emprendimiento_creator_id==db.session.query(User).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
         print(productosEmp)
-        return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ) #hagan las views porfa 
+        return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #hagan las views porfa 
 
 @app.route('/producto/<int:id>', methods=['POST','GET'])
 def producto(id):

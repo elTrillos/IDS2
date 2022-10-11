@@ -52,12 +52,13 @@
             </div>
          </div>
          {%endfor%}
-
+         {% if emprendimiento.id_usuario == userId %}
           <div class="col-sm-3" style="margin-bottom: 2%;">
             <div class="card"  onclick="location.href='/nuevoProducto'">
                <img src="{{ url_for('static', filename='images/more.png') }} " class="img-thumbnail"/>
             </div>
          </div>
+         {% endif %}
 
 
 
