@@ -212,10 +212,15 @@ def nuevoProducto():
         if request.method == 'POST':
             print("deberiaPrintear")
             user_id=User.query.get_or_404(session['user_id']).id
+            print("deberiaPrintear1")
             producto_nombre=request.form['nombre']
+            print("deberiaPrintear2")
             producto_descripcion = request.form['descripcion']
+            print("deberiaPrintear3")
             producto_disponibilidad = request.form['disponibilidad']
+            print("deberiaPrintear4")
             producto_precio = int(request.form['precio'])
+            print("deberiaPrintear5")
             #producto_fecha= datetime.now
             print("debug1")
             print(user_id)
