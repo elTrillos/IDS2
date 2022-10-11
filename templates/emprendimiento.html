@@ -9,7 +9,11 @@
    <div class="card">
       <div class="row g-0">
          <div class="col-md-3" >
+            {% if emprendimiento.imagen_name %}
             <img src="{{ url_for('static', filename= "upload/"+emprendimiento.imagen_name) }}" class="img-thumbnail"/>
+            {% else %}
+            <img src="{{ url_for('static', filename= "images/logo-red.jpg")}}" class="img-thumbnail"/>
+            {% endif %}
          </div>
          <div class="col-md-9">
             <div class="card-body">
