@@ -210,6 +210,7 @@ def nuevoProducto():
         return redirect(url_for("login"))
     else:
         if request.method == 'POST':
+            print("deberiaPrintear")
             user_id=User.query.get_or_404(session['user_id']).id
             producto_nombre=request.form['nombre']
             producto_descripcion = request.form['descripcion']
