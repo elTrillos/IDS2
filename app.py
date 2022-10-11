@@ -215,7 +215,8 @@ def nuevoProducto():
             producto_disponibilidad = request.form['disponibilidad']
             producto_precio = int(request.form['precio'])
             #producto_fecha= datetime.now
-            producto_emprendimiento_id=db.session.query(Emprendimiento).join(Producto).filter(Emprendimiento.id_usuario==user_id).first().id
+            print(user_id)
+            producto_emprendimiento_id=db.session.query(Emprendimiento).filter(Emprendimiento.id_usuario==user_id).first().id
             user_id=User.query.get_or_404(session['user_id']).id
             try:
                 file = request.files['photo']
