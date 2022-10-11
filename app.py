@@ -216,8 +216,11 @@ def nuevoProducto():
             producto_disponibilidad = request.form['disponibilidad']
             producto_precio = int(request.form['precio'])
             #producto_fecha= datetime.now
+            print("debug1")
             print(user_id)
+            print("debug1")
             producto_emprendimiento_id=db.session.query(Emprendimiento).filter(Emprendimiento.id_usuario==user_id).first().id
+            print("debug1")
             user_id=User.query.get_or_404(session['user_id']).id
             try:
                 print("debug1")
