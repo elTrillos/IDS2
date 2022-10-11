@@ -36,7 +36,7 @@
                                     <option value="Agotado">Agotado</option>
                                 </select>
                             </div>
-                            <input type="file" name="file" id="file" accept ="image/*">
+                            <input type="file" name="file" id="file" accept ="image/*" class="form-control">
                             <div class="form-group mb-4">
                                 <label for="precio">Precio : </label>
                                 <input type="precio" placeholder="0" name="precio" class="form-control" id="precio">
@@ -71,8 +71,8 @@
         formData.append("disponibilidad", disponibilidad)
         var image= document.getElementById("file").files[0]
         console.log(image)
-        formData.append("file", image)
-        console.log(formData['file'])
+        formData.append("photo", image)
+        console.log(image)
         var precio = parseInt(document.getElementById("precio").value)
         console.log(precio)
         formData.append("precio", precio)

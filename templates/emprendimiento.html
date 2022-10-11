@@ -9,7 +9,7 @@
    <div class="card">
       <div class="row g-0">
          <div class="col-md-3" >
-            <img src="{{ url_for('static', filename= "images/"+emprendimiento.imagen_name) }}" class="img-thumbnail"/>
+            <img src="{{ url_for('static', filename= "upload/"+emprendimiento.imagen_name) }}" class="img-thumbnail"/>
          </div>
          <div class="col-md-9">
             <div class="card-body">
@@ -36,7 +36,7 @@
          <div class="col-sm-3" style="margin-bottom: 2%; ">
             <div class="card" >
                {% if productos[i].imagen_name %}
-               <img src="{{ url_for('static', filename= "images/"+productos[i].imagen_name) }}" class="img-thumbnail"/>
+               <img src="{{ url_for('static', filename= "upload/"+productos[i].imagen_name) }}" class="img-thumbnail"/>
                {% else %}
                <img src="{{ url_for('static', filename= "images/logo-red.jpg")}}" class="img-thumbnail"/>
                {% endif %}

@@ -208,24 +208,16 @@ def nuevoProducto():
             producto_emprendimiento_id=db.session.query(Emprendimiento).join(Producto).filter(Emprendimiento.id_usuario==user_id).first().id
             user_id=User.query.get_or_404(session['user_id']).id
             try:
-                file = request.files['file']
-                print("aaaab")
+                file = request.files['photo']
                 image_name=os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
                 filename = secure_filename(file.filename)
-                image_name=image_name.replace('static/','')
+                image_name=image_name.replace('./static/upload/','')
                 newProd = Producto(descripcion = producto_descripcion,id_emprendimiento=producto_emprendimiento_id, nombre=producto_nombre,disponibilidad=producto_disponibilidad,precio=producto_precio, imagen_name=image_name)
-                #newImage=ProductImage(id_producto=newProd.id, imagename=image_name)
                 try:
-                    print("uuuu")
                     db.session.add(newProd)
-                    print(newProd)
                     #db.session.add(newImage)
-                    print("a?")
                     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    print("a?")
                     db.session.commit()
-                    print("a?")
-                    print(misProductos=Producto.query.order_by(Producto.id).all())
                     return redirect('/')
                 except:
                     return 'Xd fallo la wea'
