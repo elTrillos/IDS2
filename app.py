@@ -197,6 +197,29 @@ def emprendimiento(id):
         print(productosEmp)
         return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #hagan las views porfa 
 
+## EDITAR EMPRENDIMIENTOS
+@app.route('/emprendimiento/edit/<int:id>', methods=['GET', 'POST'])
+def edit_emprendimiento(id):
+    
+    currentEmpre = Emprendimiento.query.get_or_404(id)
+    
+    if currentEmpre:
+        if request.method == 'POST':
+            currentEmpre.nombre = request.form['nombre']
+            currentEmpre.descripcion = request.form['descripcion']
+            currentEmpre.categoria = request.form['categoria']
+            
+            # save edits
+            db.session.add(currentEmpre)
+            db.session.commit()
+            flash('emprendimiento updated successfully!')
+            
+            return redirect(url_for('emprendimiento', id=currentEmpre.id))
+        
+        return render_template('editar_emprendimiento.html', emprendimiento = currentEmpre)
+    else:
+        return 'Error loading #{id}'.format(id=id)
+
 @app.route('/producto/<int:id>', methods=['POST','GET'])
 def producto(id):
     if not session.get('user_id'):
