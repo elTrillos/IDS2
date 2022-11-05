@@ -193,7 +193,7 @@ def emprendimiento(id):
         imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
         productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
         user_id=User.query.get_or_404(session['user_id']).id
-        promedio = db.session.query(Puntuacion).where(id_emprendimiento = currentEmprendimiento.id).avg(puntos)
+        #promedio = db.session.query(Puntuacion).where(id_emprendimiento = currentEmprendimiento.id).avg(puntos)
         if request.method == 'POST':
             
             puntos = request.form['puntaje']
