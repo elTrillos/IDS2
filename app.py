@@ -52,6 +52,7 @@ class Emprendimiento(db.Model):
     imagen_name=db.Column(db.String(80), nullable=True)
     productos = db.relationship('Producto', backref='emprendimiento', lazy=True)
     imagenes = db.relationship('EmprendimientoImage', backref='emprendimiento', lazy=True)
+    puntuaciones = db.relationship('Puntuacion', backref='emprendimiento', lazy=True)
     def __repr__(self):
         return '<Emprendimiento %r>' % self.id
 
@@ -82,6 +83,7 @@ class Producto(db.Model):
     precio = db.Column(db.String(80))
     id_emprendimiento = db.Column(db.Integer, db.ForeignKey('emprendimiento.id'), nullable=False)
     imagenes = db.relationship('ProductImage', backref='producto', lazy=True)
+    opiniones= db.relationship('Opinion', backref='producto', lazy=True)
     fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     def __repr__(self):
@@ -96,7 +98,7 @@ class ProductImage(db.Model):
 
 class Opinion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    descripcion = db.Column(db.String(80))
+    descripcion = db.Column(db.Text())
     id_producto = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     fecha = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -280,7 +282,6 @@ def miPerfil():
     else:
         current_user = User.query.get_or_404(session['user_id'])
         return render_template('profile.html',profile=current_user) #hagan las views porfa 
-
 
 @app.route("/login",methods=["GET", "POST"])
 def login():

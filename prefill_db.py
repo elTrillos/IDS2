@@ -1,6 +1,6 @@
 from unicodedata import category
-from app import EmprendimientoImage, ProductImage, db, User, Emprendimiento, Puntuacion, Producto
-
+from app import EmprendimientoImage, ProductImage, db, User, Emprendimiento, Puntuacion, Producto, Opinion
+import datetime
 u1=User(id=2,username="xd",password="123123", category="user", nombre="Pedrito", email="elp@gmail.com")
 u2=User(id=3,username="elMismisimo",password="123123", category="user", nombre="Checo", email="checoo@gmail.com")
 u3=User(id=4,username="lePepe",password="123123", category="user", nombre="Pepe", email="elpepe@gmail.com")
@@ -15,9 +15,14 @@ p2=Producto(nombre="prod2",descripcion="El producto dos es xd", disponibilidad=2
 p3=Producto(nombre="prod3",descripcion="El producto tres es xd", disponibilidad=2, precio=12,id_emprendimiento=e2.id)
 p4=Producto(nombre="prod4",descripcion="Ok este producto es enserio 10/10 compralo", disponibilidad=5, precio=230,id_emprendimiento=e2.id)
 pi1=ProductImage(id=1,imagename="0grs8wpn1wx41.jpg", id_producto=e1.id)
-
+pu1=Puntuacion(id_usuario=2,id_emprendimiento=3,puntos=5)
+pu2=Puntuacion(id_usuario=4,id_emprendimiento=3,puntos=4)
+o1=Opinion(id_user=2,id_producto=1,descripcion="buen producto xd")
+o2=Opinion(id_user=4,id_producto=2,descripcion="Esto funciona")
 db.session.add_all([e1,e2])
 db.session.add_all([p1, p2,p3,p4])
 db.session.add_all([pi1,ei1])
+db.session.add_all([pu1,pu2])
+db.session.add_all([o1,o2])
 
 db.session.commit()
