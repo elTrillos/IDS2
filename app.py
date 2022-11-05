@@ -318,6 +318,34 @@ def miPerfil():
         current_user = User.query.get_or_404(session['user_id'])
         return render_template('profile.html',profile=current_user) #hagan las views porfa 
 
+## CREAR COMENTARIO
+@app.route('/comentario', methods=['POST','GET'])
+def nuevaOpinion():
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:
+        if request.method == 'POST':
+            descripcion = request.form['descripcion']
+            producto = request.form['producto_id']
+            user_id = User.query.get_or_404(session['user_id']).id
+
+            newOpinion = Opinion(descripcion = descripcion ,id_producto = producto,id_user = user_id)
+
+            try:
+                db.session.add(newOpinion)
+                db.session.commit()
+                flash('Comentado!!')
+
+                return redirect('/')
+            
+            except:
+                return 'Xd fallo la wea'
+            
+        else:
+            return render_template('emprendimiento.html')
+
+
+
 @app.route("/login",methods=["GET", "POST"])
 def login():
     if request.method == "POST":
