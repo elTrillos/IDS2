@@ -193,8 +193,20 @@ def emprendimiento(id):
         imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
         productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
         user_id=User.query.get_or_404(session['user_id']).id
-        #emprendimiento_creator_id==db.session.query(User).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
-        print(productosEmp)
+        promedio = db.session.query(Puntuacion).where(id_emprendimiento = currentEmprendimiento.id).avg(puntos)
+        if request.method == 'POST':
+            
+            puntos = request.form['puntaje']
+            newPts = Puntuacion(id_usuario = user_id, id_emprendimiento = currentEmprendimiento.id, puntos = puntos)
+           
+            try:
+                    db.session.add(newPts)
+                    db.session.commit()
+                    return redirect('/')
+            except:
+                print("xd")
+                return 'Xd fallo la wea'
+        
         return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #hagan las views porfa 
 
 ## EDITAR EMPRENDIMIENTOS
