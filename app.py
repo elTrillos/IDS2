@@ -400,11 +400,12 @@ def login():
     if request.method == "POST":
         uname = request.form["username"]
         passw = request.form["password"]
+        
         login = User.query.filter_by(username=uname, password=passw).first()
         if login is not None:
             session['username'] = uname
             session['user_id'] = login.id
-
+            session['user_cat'] = login.category
             return redirect(url_for("index"))
     return render_template("login.html")
 
@@ -412,6 +413,7 @@ def login():
 def logout():
     session.pop('user_id', None)
     session.pop('username', None)
+    session.pop('user_cat', None)
     return redirect(url_for('login'))
 
 @app.route("/register", methods=["GET", "POST"])
@@ -428,6 +430,7 @@ def register():
             register = User(username=uname, email=mail, password=passw, category=cat, telefono=numb, nombre=rname)
             session['username'] = uname
             session['user_id'] = register.id
+            session['user_cat'] = register.category
             db.session.add(register)
             db.session.commit()
             return redirect(url_for("login"))
