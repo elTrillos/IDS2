@@ -1,4 +1,6 @@
 from datetime import datetime
+import re
+
 from unicodedata import category
 from xmlrpc.client import DateTime
 
@@ -301,6 +303,27 @@ def nuevoProducto():
         else:
             print(session['user_id'])
             return render_template('crear_producto.html')
+
+
+@app.route('/editProducto/<id>', methods=['PUT'])
+def editProducto(id):
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:
+        if request.method == 'PUT':
+            try:
+                producto = Producto.query.get_or_404(id)
+                producto.descripcion = request.form['descripcion']
+                producto.disponibilidad = request.form['disponibilidad']
+                producto.nombre = request.form['nombre']
+                producto.precio = int(request.form['precio'])
+                db.session.commit()
+                flash('Product updated successfully!')
+                return redirect(url_for("index"))
+            except:
+                flash('Failed to update product')
+                return 'error'
+
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
 def perfil(id):
@@ -352,12 +375,10 @@ def login():
         uname = request.form["username"]
         passw = request.form["password"]
         login = User.query.filter_by(username=uname, password=passw).first()
-        session['username'] = uname
-        session['user_id'] = login.id
-        print(login.id)
-        print(session['user_id'])
         if login is not None:
-            print("xdddasdeasd")
+            session['username'] = uname
+            session['user_id'] = login.id
+
             return redirect(url_for("index"))
     return render_template("login.html")
 
@@ -370,20 +391,24 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
         uname = request.form['username']
         mail = request.form['email']
         passw = request.form['password']
         cat = request.form['category']
         numb = request.form['phone']
         rname = request.form['name']
-        
-        register = User(username = uname, email = mail, password = passw, category=cat, telefono=numb, nombre=rname)
-        session['username'] = uname
-        session['user_id'] = register.id
-        db.session.add(register)
-        #session["user"] = register
-        db.session.commit()
-        return redirect(url_for("login"))    
+        if (re.search(regex, mail) and ("@miuandes.cl" in mail or  "@uandes.cl" in mail)):
+            register = User(username=uname, email=mail, password=passw, category=cat, telefono=numb, nombre=rname)
+            session['username'] = uname
+            session['user_id'] = register.id
+            db.session.add(register)
+            db.session.commit()
+            return redirect(url_for("login"))
+        else:
+            print("Invalid Email")
+            return render_template("register.html")
+
     return render_template("register.html")
 
 
