@@ -350,7 +350,7 @@ def nuevaOpinion():
         if request.method == 'POST':
             descripcion = request.form['descripcion']
             producto = request.form['producto_id']
-            user_id = User.query.get_or_404(session['user_id']).id
+            
 
             newOpinion = Opinion(descripcion = descripcion ,id_producto = producto,id_user = user_id)
 
@@ -365,9 +365,35 @@ def nuevaOpinion():
                 return 'Xd fallo la wea'
             
         else:
-            return render_template('emprendimiento.html')
+            return render_template('emprendimiento.html') #Crear VIEW PARA CREAR COMENTARIO
 
-
+## Obtener promedio de puntuacion de un emprendimiento
+@app.route('/puntuacion/<int:id>', methods=['POST','GET'])
+def promedioPuntuacion(id):
+    if not session.get('user_id'):
+        return redirect(url_for("login"))
+    else:
+        
+        user_id = User.query.get_or_404(session['user_id']).id
+        emprendimiento=Emprendimiento.query.get_or_404(id)
+        imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
+        productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==emprendimiento.id).all()
+        
+        if emprendimiento is not None:
+            puntuacion = Puntuacion.query.filter_by(id_emprendimiento=emprendimiento.id).all()
+            if puntuacion:
+                print(puntuacion)
+                promedio = 0
+                for i in puntuacion:
+                    promedio = i.puntos
+                promedio = int(promedio/int(len(puntuacion)))
+                return render_template('emprendimiento.html',emprendimiento=emprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id, puntuacion=promedio) #DEFINIR VIEW
+            else:
+                return render_template('emprendimiento.html',emprendimiento=emprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #DEFINIR VIEW
+        return render_template('emprendimiento.html',emprendimiento=emprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #DEFINIR VIEW
+    
+        
+        
 
 @app.route("/login",methods=["GET", "POST"])
 def login():
