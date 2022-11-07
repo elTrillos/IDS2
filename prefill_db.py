@@ -1,9 +1,10 @@
 from unicodedata import category
 from app import EmprendimientoImage, ProductImage, db, User, Emprendimiento, Puntuacion, Producto, Opinion
 import datetime
-u1=User(id=2,username="xd",password="123123", category="user", nombre="Pedrito", email="elp@gmail.com")
-u2=User(id=3,username="elMismisimo",password="123123", category="user", nombre="Checo", email="checoo@gmail.com")
-u3=User(id=4,username="lePepe",password="123123", category="user", nombre="Pepe", email="elpepe@gmail.com")
+u1=User(id=2,username="xd",password="123123", category="User", nombre="Pedrito", email="elp@gmail.com")
+u2=User(id=3,username="elMismisimo",password="123123", category="User", nombre="Checo", email="checoo@gmail.com")
+u3=User(id=4,username="lePepe",password="123123", category="User", nombre="Pepe", email="elpepe@gmail.com")
+u3=User(id=4,username="leAdmin",password="123123", category="Admin", nombre="Pepe", email="elpepe@gmail.com")
 db.session.add_all([u1,u2,u3])
 print("xdddd")
 print(u1.id)
