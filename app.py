@@ -195,7 +195,15 @@ def emprendimiento(id):
         imagenesEmp=db.session.query(EmprendimientoImage).join(Emprendimiento).filter(EmprendimientoImage.id_emprendimiento==id).all()
         productosEmp=db.session.query(Producto).join(Emprendimiento).filter(Producto.id_emprendimiento==currentEmprendimiento.id).all()
         user_id=User.query.get_or_404(session['user_id']).id
-        #promedio = db.session.query(Puntuacion).where(id_emprendimiento = currentEmprendimiento.id).avg(puntos)
+        puntuaciones = db.session.query(Puntuacion).where(Puntuacion.id_emprendimiento == currentEmprendimiento.id).all()
+        sum=0
+        
+        for i in puntuaciones:
+            sum+=i.puntaje
+        if len(puntuaciones)==0:
+            avg=0
+        else:
+            avg=sum/len(puntuaciones)
         if request.method == 'POST':
             
             puntos = request.form['puntaje']
@@ -209,7 +217,7 @@ def emprendimiento(id):
                 print("xd")
                 return 'Xd fallo la wea'
         
-        return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #hagan las views porfa 
+        return render_template('emprendimiento.html',emprendimiento=currentEmprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id, promedio=avg) #hagan las views porfa 
 
 ## EDITAR EMPRENDIMIENTOS
 @app.route('/emprendimiento/edit/<int:id>', methods=['GET', 'POST'])
