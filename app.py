@@ -401,9 +401,38 @@ def promedioPuntuacion(id):
             else:
                 return render_template('emprendimiento.html',emprendimiento=emprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #DEFINIR VIEW
         return render_template('emprendimiento.html',emprendimiento=emprendimiento, productos=productosEmp, imagenes=imagenesEmp ,userId=user_id) #DEFINIR VIEW
-    
-        
-        
+
+
+@app.route('/userUpdate/<int:id>', methods=['POST','GET','PUT'])
+def Update_user(id):
+    #if not session.get('user_id'):
+    #    return redirect(url_for("login"))
+    #else:
+        if request.method == 'PUT':
+            username = request.form['username']
+            password = request.form['password']
+            telefono = request.form['telefono']
+            nombre = request.form['nombre']
+            email = request.form['email']
+
+            user = User.query.filter_by(id=id).first()
+            if user is not None:
+                if username is not None:
+                    user.username = username
+                if password is not None:
+                    user.telefono = password
+                if telefono is not None:
+                    user.telefono = telefono
+                if nombre is not None:
+                    user.nombre = nombre
+                if email is not None:
+                    user.email = email
+                db.session.commit()
+                return {"response": "Funciona"}
+        else:
+            return {"CREAR VIEW": "xd"} #CREAR VIEW XD
+
+
 
 @app.route("/login",methods=["GET", "POST"])
 def login():
