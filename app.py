@@ -239,9 +239,10 @@ def producto(id):
     if not session.get('user_id'):
         return redirect(url_for("login"))
     else:
+        currentDatetime = datetime.now()
         currentProducto=Producto.query.get_or_404(id)
         imagenesProd=db.session.query(ProductImage).join(Producto).filter(ProductImage.id_producto==id).all()
-        return render_template('producto.html',producto=currentProducto,imagenes=imagenesProd) #hagan las views porfa
+        return render_template('producto.html',producto=currentProducto,imagenes=imagenesProd, currentdate=currentDatetime) #hagan las views porfa
 
 @app.route('/nuevoProducto', methods=['POST','GET'])
 def nuevoProducto():
