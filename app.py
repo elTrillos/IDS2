@@ -411,12 +411,9 @@ def Update_user(id):
     #if not session.get('user_id'):
     #    return redirect(url_for("login"))
     #else:
-        if request.method == 'PUT':
-            username = request.form['username']
+        if request.method == 'POST':
+            username = request.form['name']
             password = request.form['password']
-            telefono = request.form['telefono']
-            nombre = request.form['nombre']
-            email = request.form['email']
 
             user = User.query.filter_by(id=id).first()
             if user is not None:
@@ -424,17 +421,11 @@ def Update_user(id):
                     user.username = username
                 if password is not None:
                     user.telefono = password
-                if telefono is not None:
-                    user.telefono = telefono
-                if nombre is not None:
-                    user.nombre = nombre
-                if email is not None:
-                    user.email = email
                 db.session.commit()
                 return {"response": "Funciona"}
         else:
             current_user = User.query.get_or_404(session['user_id'])
-            return render_template("userUpdate.html", profile=current_user)  #CREAR VIEW XD
+            return render_template("userUpdate.html", profile=current_user, id=current_user.id)  #CREAR VIEW XD
 
 
 

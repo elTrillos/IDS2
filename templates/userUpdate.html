@@ -7,7 +7,7 @@
 {% block content %}
 <body>
   
-
+  <div id ='idvalue' value="{{id}}" hidden></div>
   <div style="float: right; width: 40%">
     <section class="form-register">
     <div class="container">
@@ -38,8 +38,8 @@
     function saveData(){
         var formData = new FormData();
         formData.append("content", "Usuario")
-
-        
+        var idval= document.getElementById("idvalue").getAttribute("value")
+        console.log(idval)
         var password = document.getElementById("passw").value
         formData.append("password",password)
 
@@ -49,7 +49,7 @@
         formData.append("name",name)
 
         const request = new XMLHttpRequest()
-        request.open("PUT", '/register')
+        request.open("POST", '/userUpdate/'+idval)
         request.send(formData)
         console.log(request)
       }
