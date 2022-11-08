@@ -38,30 +38,18 @@
     function saveData(){
         var formData = new FormData();
         formData.append("content", "Usuario")
-        var username = document.getElementById("uname").value
-        formData.append("username",username)
-        console.log(username)
 
-        var mail = document.getElementById("mail").value
-        formData.append('email',mail)
         
         var password = document.getElementById("passw").value
         formData.append("password",password)
 
-        var category = document.getElementById("category").value
-        console.log(category)
-        formData.append("category",category)
-
-        var phone = document.getElementById("phone").value
-        console.log(phone)
-        formData.append("phone",phone)
         
         var name = document.getElementById("name").value
         console.log(name)
         formData.append("name",name)
 
         const request = new XMLHttpRequest()
-        request.open("POST", '/register')
+        request.open("PUT", '/register')
         request.send(formData)
         console.log(request)
       }
