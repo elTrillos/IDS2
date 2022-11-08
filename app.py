@@ -315,7 +315,7 @@ def nuevoProducto():
             return render_template('crear_producto.html')
 
 
-@app.route('/editProducto/<id>', methods=['PUT'])
+@app.route('/editProducto/<id>', methods=['PUT', 'GET'])
 def editProducto(id):
     if not session.get('user_id'):
         return redirect(url_for("login"))
@@ -333,6 +333,9 @@ def editProducto(id):
             except:
                 flash('Failed to update product')
                 return 'error'
+        if request.method == 'GET':
+            #cambiar por editar
+            return render_template('crear_producto.html')
 
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])
