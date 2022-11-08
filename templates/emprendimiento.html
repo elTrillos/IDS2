@@ -19,7 +19,18 @@
             <div class="card-body">
             <h3 class="card-title">{{emprendimiento.nombre}}</h3>
             <p class="card-text"><small class="text-muted">Categoria: {{emprendimiento.categoria}}</small></p>
-            <p class="card-text"><small class="text-muted">Puntuacion Promedio: {{promedio}}</small></p>
+            <p class="card-text"><small class="text-muted">Puntuación Promedio: {{promedio}}</small></p>
+               <p class="card-text"><small class="text-muted">Valoración:</small></p>
+               <form>
+               <select class="select" id="rating">
+                  <option value="1">⭐</option>
+                  <option value="2">⭐⭐</option>
+                  <option value="3">⭐⭐⭐</option>
+                  <option value="4">⭐⭐⭐⭐</option>
+                  <option value="5">⭐⭐⭐⭐⭐</option>
+               </select>
+               </form>
+            </div>
             <p class="card-text">{{emprendimiento.descripcion}}</p>       
                {% if userId == emprendimiento.id_usuario %}
                   <a href="/emprendimiento/edit/{{emprendimiento.id}}" class="btn btn-danger stretched-link", style="justify-content: center;">Edit</a>
