@@ -433,7 +433,8 @@ def Update_user(id):
                 db.session.commit()
                 return {"response": "Funciona"}
         else:
-            return {"CREAR VIEW": "xd"} #CREAR VIEW XD
+            current_user = User.query.get_or_404(session['user_id'])
+            return render_template("userUpdate.html", profile=current_user)  #CREAR VIEW XD
 
 
 

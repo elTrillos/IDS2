@@ -1,0 +1,70 @@
+{% extends './components/base.html' %}
+<head>
+    <meta charset="utf-8">
+    <title>Formulario register</title>
+</head>
+
+{% block content %}
+<body>
+  
+
+  <div style="float: right; width: 40%">
+    <section class="form-register">
+    <div class="container">
+      <div class="row justify-content-center" style="margin-top: 50%">
+          <div class="col-sm">
+              <form method="POST">
+                  <div class="form-group mb-2">
+                    <label for="passw">Password : </label>
+                    <input type="password" placeholder="Enter Password" name="passw" class="form-control" id="passw">
+                  </div>
+                  <div class="form-group mb-5">
+                    <label for="name">Nombre: </label>
+                    <input type="text" placeholder="Ingresar Nombre" name="nombre" class="form-control" id="name">
+                  </div>
+              </form>
+              <button class="btn form-control btn-default" id="saveData" type="button" value="Guardar usuario" onclick="saveData();"><a href='/'>Guardar cambios</a></button>
+              <button onclick="history.back()">Volver</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </selection>
+  <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
+
+  </div>
+</body>
+<script>
+    function saveData(){
+        var formData = new FormData();
+        formData.append("content", "Usuario")
+        var username = document.getElementById("uname").value
+        formData.append("username",username)
+        console.log(username)
+
+        var mail = document.getElementById("mail").value
+        formData.append('email',mail)
+        
+        var password = document.getElementById("passw").value
+        formData.append("password",password)
+
+        var category = document.getElementById("category").value
+        console.log(category)
+        formData.append("category",category)
+
+        var phone = document.getElementById("phone").value
+        console.log(phone)
+        formData.append("phone",phone)
+        
+        var name = document.getElementById("name").value
+        console.log(name)
+        formData.append("name",name)
+
+        const request = new XMLHttpRequest()
+        request.open("POST", '/register')
+        request.send(formData)
+        console.log(request)
+      }
+    document.getElementById("saveData").onclick = function () {  saveData();};
+</script>
+{% endblock %}
