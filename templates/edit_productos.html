@@ -8,10 +8,7 @@
 {% block content %}
 
 <body>
-    <div style="float: left; width: 60%; padding-right: 50px">
-        <img src="static/images/logo-transparent.png" alt="Logo Uandes Market" width="90%" height="auto">
-
-    </div>
+    <div id ='idvalue' value="{{id}}" hidden></div>
 
     <div style="float: right; width: 40%">
         <section class="form-register">
@@ -21,12 +18,12 @@
                         <form method="POST">
                             <div class="form-group">
                                 <label for="name">Nombre : </label>
-                                <input type="text" placeholder="Ingresar nombre del producto" name="name"
+                                <input type="text" placeholder= {{producto.nombre}}  name="name"
                                     class="form-control" id="name">
                             </div>
                             <div class="form-group">
                                 <label for="descripcion">Descripcion : </label>
-                                <input type="text" placeholder="Ingresar descripcion del producto" descripcion="descripcion"
+                                <input type="text" placeholder= {{producto.descripcion}}  descripcion="descripcion"
                                     class="form-control" id="descripcion">
                             </div>
                             <div class="form-group mb-2">
@@ -36,10 +33,10 @@
                                     <option value="Agotado">Agotado</option>
                                 </select>
                             </div>
-                            <input type="file" name="file" id="file" accept ="image/*" class="form-control">
+                           
                             <div class="form-group mb-4">
                                 <label for="precio">Precio : </label>
-                                <input type="precio" placeholder="0" name="precio" class="form-control" id="precio">
+                                <input type="precio" placeholder= {{producto.precio}}  name="precio" class="form-control" id="precio">
                             </div>
                         </form>
                         <button class="btn form-control btn-default" id="saveData" type="button"
@@ -59,7 +56,8 @@
     function saveData() {
         var formData = new FormData();
         formData.append("content", "Nombre")
-
+        
+        var idval= document.getElementById("idvalue").getAttribute("value")
         var name = document.getElementById("name").value
         formData.append("nombre", name)
         
@@ -69,15 +67,12 @@
         var disponibilidad = document.getElementById("disponibilidad").value
         console.log(disponibilidad)
         formData.append("disponibilidad", disponibilidad)
-        var image= document.getElementById("file").files[0]
-        console.log(image)
-        formData.append("photo", image)
-        console.log(image)
+       
         var precio = parseInt(document.getElementById("precio").value)
         console.log(precio)
         formData.append("precio", precio)
         const request = new XMLHttpRequest()
-        request.open("POST", '/nuevoProducto')
+        request.open("POST", '/editProducto/' +idval)
         request.send(formData)
         console.log(request)
     }

@@ -199,7 +199,7 @@ def emprendimiento(id):
         sum=0
         
         for i in puntuaciones:
-            sum+=i.puntaje
+            sum+=i.puntos
         if len(puntuaciones)==0:
             avg=0
         else:
@@ -315,7 +315,7 @@ def nuevoProducto():
             return render_template('crear_producto.html')
 
 
-@app.route('/editProducto/<id>', methods=['PUT', 'GET'])
+@app.route('/editProducto/<id>', methods=['PUT', 'GET','POST'])
 def editProducto(id):
     if not session.get('user_id'):
         return redirect(url_for("login"))
@@ -335,7 +335,8 @@ def editProducto(id):
                 return 'error'
         if request.method == 'GET':
             #cambiar por editar
-            return render_template('crear_producto.html')
+            producto = Producto.query.get_or_404(id)
+            return render_template('edit_productos.html',producto = producto, id = producto.id)
 
  
 @app.route("/perfil/<int:id>",methods=["GET", "POST"])

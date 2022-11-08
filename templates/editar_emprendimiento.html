@@ -20,11 +20,11 @@
               <form method="POST">
                   <div class="form-group">
                     <label for="Nemprendimiento">Nombre emprendimiento : </label>
-                    <input type="text" placeholder= {{emprendimiento.nombre}} name="username" class="form-control" id="nombremeprendimiento">
+                    <input type="text" placeholder= {{emprendimiento.nombre}} name="username" class="form-control" id="nombremeprendimiento" default = {{emprendimiento.nombre}}>
                   </div>
                   <div class="form-group mb-2">
                     <label for="Descripcion">Descripcion : </label>
-                    <input type = "textarea"   placeholder= {{emprendimiento.descripcion}} name="descripcion" class="form-control" id="descripcion">
+                    <input type = "textarea"   placeholder= {{emprendimiento.descripcion}} name="descripcion" class="form-control" id="descripcion" default = {{emprendimiento.descripcion}}>
                   </div>
                   <div class="form-group mb-3">
                     <label for="category">Categoria del emprendimiento:</label>
