@@ -420,7 +420,9 @@ def Update_user(id):
                 if username is not None:
                     user.username = username
                 if password is not None:
-                    user.telefono = password
+                    user.password = password
+                session.pop('username', None)
+                session['username'] = username
                 db.session.commit()
                 return {"response": "Funciona"}
         else:
