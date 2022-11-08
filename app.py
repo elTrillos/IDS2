@@ -199,7 +199,7 @@ def emprendimiento(id):
         sum=0
         
         for i in puntuaciones:
-            sum+=i.puntaje
+            sum+=i.puntos
         if len(puntuaciones)==0:
             avg=0
         else:
