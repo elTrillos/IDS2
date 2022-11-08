@@ -11,9 +11,12 @@
       <p class="card-text">Mail: {{profile.email}}</p>
       <p class="card-text">Telefono: {{profile.telefono}}</p>
 
-      <a href="/logout" class="btn btn-danger stretched-link", style="justify-content: center;">Edit (poner link)</a>
+      <div><a href="/userUpdate/{{profile.id}}" class="btn btn-danger stretched-link", style="justify-content: center;">Edit</a></div>
+      
 
-      <a href="/logout" class="btn btn-danger stretched-link", style="justify-content: center;">Logout</a>
+
+
+      
     </div>
   </div>
   {% endblock %}

@@ -57,15 +57,9 @@
                   
                   
                {% if userId == emprendimiento.id_usuario %}
-                   <a href="/logout" class="btn btn-danger stretched-link", style="justify-content: center;">Edit (poner link)</a>
+                   <a href="/editProducto/{{productos[i].id}}" class="btn btn-danger stretched-link", style="justify-content: center;">Edit (poner link)</a>
                    
                {% endif %}
-
-
-
-
-
-
 
                   <a href="/producto/{{productos[i].id}}" class="btn btn-danger stretched-link">Ver</a>
                </div>
