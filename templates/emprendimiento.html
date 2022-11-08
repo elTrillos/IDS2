@@ -20,8 +20,11 @@
             <h3 class="card-title">{{emprendimiento.nombre}}</h3>
             <p class="card-text"><small class="text-muted">Categoria: {{emprendimiento.categoria}}</small></p>
             <p class="card-text"><small class="text-muted">Puntuacion Promedio: {{promedio}}</small></p>
-            <p class="card-text">{{emprendimiento.descripcion}}</p>
-             <a href="/emprendimiento/edit/{{emprendimiento.id}}" class="btn btn-danger stretched-link", style="justify-content: center;">Edit</a>
+            <p class="card-text">{{emprendimiento.descripcion}}</p>       
+               {% if userId == emprendimiento.id_usuario %}
+                  <a href="/emprendimiento/edit/{{emprendimiento.id}}" class="btn btn-danger stretched-link", style="justify-content: center;">Edit</a>
+               {% endif %}
+
             </div>
          </div>
       </div>
@@ -52,8 +55,18 @@
                   <p class="card-text" style="text-align: right;" >Precio: {{productos[i].precio}}</p>
 
                   
+                  
+               {% if userId == emprendimiento.id_usuario %}
                    <a href="/logout" class="btn btn-danger stretched-link", style="justify-content: center;">Edit (poner link)</a>
                    
+               {% endif %}
+
+
+
+
+
+
+
                   <a href="/producto/{{productos[i].id}}" class="btn btn-danger stretched-link">Ver</a>
                </div>
             </div>
