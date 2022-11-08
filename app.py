@@ -238,7 +238,7 @@ def edit_emprendimiento(id):
             
             return redirect(url_for('emprendimiento', id=currentEmpre.id))
         
-        return render_template('editar_emprendimiento.html', emprendimiento = currentEmpre)
+        return render_template('editar_emprendimiento.html', emprendimiento = currentEmpre, id = currentEmpre.id)
     else:
         return 'Error loading #{id}'.format(id=id)
 

@@ -6,6 +6,7 @@
 
 {% block content %}
 <body>
+  <div id ='idvalue' value="{{id}}" hidden></div>
   <div style="float: left; width: 60%; padding-right: 50px">
     <img src="static/images/logo-transparent.png" alt="Logo Uandes Market" width="90%" height="auto">
   
@@ -19,11 +20,11 @@
               <form method="POST">
                   <div class="form-group">
                     <label for="Nemprendimiento">Nombre emprendimiento : </label>
-                    <input type="text" placeholder="Ingresa nombre emprendimiento" name="username" class="form-control" id="nombremeprendimiento">
+                    <input type="text" placeholder= {{emprendimiento.nombre}} name="username" class="form-control" id="nombremeprendimiento">
                   </div>
                   <div class="form-group mb-2">
                     <label for="Descripcion">Descripcion : </label>
-                    <input type = "textarea"   placeholder="ingresar descripcion" name="descripcion" class="form-control" id="descripcion">
+                    <input type = "textarea"   placeholder= {{emprendimiento.descripcion}} name="descripcion" class="form-control" id="descripcion">
                   </div>
                   <div class="form-group mb-3">
                     <label for="category">Categoria del emprendimiento:</label>
@@ -36,15 +37,11 @@
                         <option value="Otra">Otra</option>
                     </select>
                   </div>
-                  <input type="file" name="file" id="file" accept ="image/*" class="form-control">
-                  <div class="form-group mb-4">
-                    <label for="redes">Redes sociales : </label>
-                    <input type="text" name="redes" class="form-control" id="redes">
-                  </div>
+                 
                   
                 
               </form>
-              <button class="btn form-control btn-default" id="saveData" type="button" value="Guardar usuario" onclick="saveData()"><a href='/'>Registrarse</a></button>
+              <button class="btn form-control btn-default" id="saveData" type="button" value="Guardar usuario" onclick="saveData()"><a href='/'>Guardar Cambios</a></button>
               <button onclick="history.back()">Volver</button>
             </div>
         </div>
@@ -60,7 +57,8 @@
     function saveData(){
         var formData = new FormData();
         formData.append("content", "Usuario")
-
+        var idval= document.getElementById("idvalue").getAttribute("value")
+        console.log(idval)
 
         var username = document.getElementById("nombremeprendimiento").value
         formData.append("nombre",username)
@@ -74,10 +72,6 @@
         console.log(category)
         formData.append("categoria",category)
 
-        var image= document.getElementById("file").files[0]
-        console.log(image)
-        formData.append("photo", image)
-        console.log(image)
 
         
         var name = document.getElementById("redes").value
@@ -85,7 +79,7 @@
         formData.append("redes",name)
         console.log('newEmp')
         const request = new XMLHttpRequest()
-        request.open("POST", '/nuevoEmprendimiento')
+        request.open("POST", '/emprendimiento/edit/' +idval )
         request.send(formData)
         console.log(request)
       }
