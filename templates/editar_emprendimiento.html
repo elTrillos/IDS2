@@ -1,0 +1,94 @@
+{% extends './components/base.html' %}
+<head>
+    <meta charset="utf-8">
+    <title>Formulario crear emprendimiento</title>
+</head>
+
+{% block content %}
+<body>
+  <div style="float: left; width: 60%; padding-right: 50px">
+    <img src="static/images/logo-transparent.png" alt="Logo Uandes Market" width="90%" height="auto">
+  
+  </div>
+
+  <div style="float: right; width: 40%">
+    <section class="form-register">
+    <div class="container">
+      <div class="row justify-content-center" style="margin-top: 50%">
+          <div class="col-sm">
+              <form method="POST">
+                  <div class="form-group">
+                    <label for="Nemprendimiento">Nombre emprendimiento : </label>
+                    <input type="text" placeholder="Ingresa nombre emprendimiento" name="username" class="form-control" id="nombremeprendimiento">
+                  </div>
+                  <div class="form-group mb-2">
+                    <label for="Descripcion">Descripcion : </label>
+                    <input type = "textarea"   placeholder="ingresar descripcion" name="descripcion" class="form-control" id="descripcion">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="category">Categoria del emprendimiento:</label>
+                    <select name="category" id="category">
+                        <option value="Comida">Comida</option>
+                        <option value="tecnologia">Tecnologia</option>
+                        <option value="Vestimenta">Vestimenta</option>
+                        <option value="Mascotas">Mascotas</option>
+                        
+                        <option value="Otra">Otra</option>
+                    </select>
+                  </div>
+                  <input type="file" name="file" id="file" accept ="image/*" class="form-control">
+                  <div class="form-group mb-4">
+                    <label for="redes">Redes sociales : </label>
+                    <input type="text" name="redes" class="form-control" id="redes">
+                  </div>
+                  
+                
+              </form>
+              <button class="btn form-control btn-default" id="saveData" type="button" value="Guardar usuario" onclick="saveData()"><a href='/'>Registrarse</a></button>
+              <button onclick="history.back()">Volver</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </selection>
+  <!--<p><a href="Tareas"> | Ingresar |</a></p>-->
+
+  </div>
+</body>
+<script>
+
+    function saveData(){
+        var formData = new FormData();
+        formData.append("content", "Usuario")
+
+
+        var username = document.getElementById("nombremeprendimiento").value
+        formData.append("nombre",username)
+        console.log(username)
+
+        
+        var password = document.getElementById("descripcion").value
+        formData.append("descripcion",password)
+
+        var category = document.getElementById("category").value
+        console.log(category)
+        formData.append("categoria",category)
+
+        var image= document.getElementById("file").files[0]
+        console.log(image)
+        formData.append("photo", image)
+        console.log(image)
+
+        
+        var name = document.getElementById("redes").value
+        console.log(name)
+        formData.append("redes",name)
+        console.log('newEmp')
+        const request = new XMLHttpRequest()
+        request.open("POST", '/nuevoEmprendimiento')
+        request.send(formData)
+        console.log(request)
+      }
+    document.getElementById("saveData").onclick = function () {  saveData();};
+</script>
+{% endblock %}
