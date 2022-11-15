@@ -107,11 +107,16 @@ class Opinion(db.Model):
 
     def __repr__(self):
         return '<Producto %r>' % self.id
+
+
     
 if not os.path.exists('instance/' + DB_NAME):
     with app.app_context():
             db.create_all()
             print("Database Created")
+            os.system('python3 prefill_db.py')
+            print("Database Filled")
+
 else:
     print("DB already exists")
 
@@ -354,7 +359,8 @@ def miPerfil():
         return redirect(url_for("login"))
     else:
         current_user = User.query.get_or_404(session['user_id'])
-        return render_template('profile.html',profile=current_user) #hagan las views porfa 
+        return render_template('profile.html',profile=current_user)
+
 
 ## CREAR COMENTARIO
 @app.route('/comentario', methods=['POST','GET'])
