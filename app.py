@@ -112,6 +112,8 @@ if not os.path.exists('instance/' + DB_NAME):
     with app.app_context():
             db.create_all()
             print("Database Created")
+else:
+    print("DB already exists")
 
 @app.route('/', methods=['GET','POST']) # login
 def index():
