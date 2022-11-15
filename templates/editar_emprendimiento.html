@@ -72,14 +72,9 @@
         console.log(category)
         formData.append("categoria",category)
 
-
-        
-        var name = document.getElementById("redes").value
-        console.log(name)
-        formData.append("redes",name)
         console.log('newEmp')
         const request = new XMLHttpRequest()
-        request.open("POST", '/emprendimiento/edit/' +idval )
+        request.open("POST", '/emprendimiento/edit/' +(idval).toString() )
         request.send(formData)
         console.log(request)
       }

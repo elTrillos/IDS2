@@ -224,7 +224,6 @@ def emprendimiento(id):
 def edit_emprendimiento(id):
     
     currentEmpre = Emprendimiento.query.get_or_404(id)
-    
     if currentEmpre:
         if request.method == 'POST':
             currentEmpre.nombre = request.form['nombre']
@@ -315,7 +314,7 @@ def nuevoProducto():
             return render_template('crear_producto.html')
 
 
-@app.route('/editProducto/<id>', methods=['PUT', 'GET','POST'])
+@app.route('/editProducto/<id>', methods=['PUT', 'GET'])
 def editProducto(id):
     if not session.get('user_id'):
         return redirect(url_for("login"))
